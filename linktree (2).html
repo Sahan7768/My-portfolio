@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kavindu Sahan · Cybersecurity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+:root{
+  --bg:#05080f;
+  --surface2:#111827;
+  --border:rgba(241,113,56,0.18);
+  --border2:rgba(241,113,56,0.38);
+  --accent:#f17138;
+  --accent2:#ff9f6b;
+  --cyan:#38bdf8;
+  --text:#f1f5f9;
+  --muted:#64748b;
+  --muted2:#94a3b8;
+  --card-bg:rgba(17,24,39,0.75);
+  --radius:14px;
+}
+body.light{
+  --bg:#f5f0eb;
+  --surface2:#fff8f3;
+  --border:rgba(241,113,56,0.22);
+  --border2:rgba(241,113,56,0.5);
+  --text:#1a1714;
+  --muted:#78716c;
+  --muted2:#a8a29e;
+  --card-bg:rgba(255,252,249,0.88);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;overflow:hidden;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Space Grotesk',sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:background .35s,color .35s;
+  position:relative;
+}
+/* grid bg */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    radial-gradient(ellipse 90% 55% at 50% -10%,rgba(241,113,56,0.13) 0%,transparent 65%),
+    linear-gradient(rgba(241,113,56,0.028) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(241,113,56,0.028) 1px,transparent 1px);
+  background-size:100% 100%,55px 55px,55px 55px;
+  pointer-events:none;z-index:0;
+}
+/* theme btn */
+.theme-btn{
+  position:fixed;top:1rem;right:1rem;z-index:200;
+  width:38px;height:38px;border-radius:50%;
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--text);font-size:0.9rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;backdrop-filter:blur(10px);
+}
+.theme-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── MAIN CARD ── */
+.page{
+  position:relative;z-index:1;
+  width:min(520px,96vw);
+  max-height:97vh;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  padding:1.4rem 1.5rem 1rem;
+}
+
+/* ── TOP: photo + info side by side ── */
+.top{
+  display:flex;
+  align-items:center;
+  gap:1.2rem;
+  margin-bottom:1rem;
+}
+
+/* hexagonal clip picture */
+.avatar-hex{
+  flex-shrink:0;
+  position:relative;
+  width:110px;height:110px;
+}
+.avatar-hex::before{
+  content:'';
+  position:absolute;inset:-3px;
+  background:conic-gradient(var(--accent),var(--cyan),var(--accent2),var(--accent));
+  clip-path:polygon(50% 0%,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);
+  animation:spin 5s linear infinite;
+  z-index:0;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.avatar-hex img,.avatar-hex .av-fb{
+  position:relative;z-index:1;
+  width:104px;height:104px;
+  clip-path:polygon(50% 0%,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);
+  object-fit:cover;object-position:top center;
+  display:block;margin:3px 0 0 3px;
+}
+.av-fb{
+  background:linear-gradient(135deg,rgba(241,113,56,0.18),rgba(56,189,248,0.14));
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:2px;
+}
+.av-fb span{font-family:'Space Mono',monospace;font-size:1.8rem;font-weight:700;color:var(--accent);}
+.av-fb small{font-size:0.5rem;letter-spacing:.2em;color:var(--muted2);text-transform:uppercase;}
+
+.info{flex:1;min-width:0;}
+.status-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:'Space Mono',monospace;font-size:0.58rem;
+  letter-spacing:.1em;color:var(--accent);
+  background:rgba(241,113,56,0.08);border:1px solid rgba(241,113,56,0.2);
+  padding:3px 10px;border-radius:30px;margin-bottom:0.45rem;
+}
+.sdot{width:5px;height:5px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 7px var(--accent);animation:pulse 1.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.5);opacity:.5;}}
+.name{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;line-height:1.1;margin-bottom:.18rem;}
+.role{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--accent);letter-spacing:.05em;margin-bottom:.3rem;}
+.bio{font-size:0.73rem;color:var(--muted2);line-height:1.6;}
+
+/* ── WHATSAPP CTA ── */
+.cta{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:.65rem 1rem;margin-bottom:.85rem;
+  background:linear-gradient(135deg,rgba(241,113,56,0.13),rgba(255,159,107,0.08));
+  border:1px solid var(--border2);border-radius:var(--radius);
+  text-decoration:none;color:var(--accent);font-weight:600;font-size:.82rem;
+  transition:all .22s;position:relative;overflow:hidden;
+}
+.cta:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(241,113,56,0.18);}
+
+/* ── DIVIDER ── */
+.divider{
+  display:flex;align-items:center;gap:.6rem;margin-bottom:.7rem;
+  color:var(--muted);font-family:'Space Mono',monospace;
+  font-size:0.58rem;letter-spacing:.2em;text-transform:uppercase;
+}
+.divider::before,.divider::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+}
+
+/* ── LINKS GRID ── */
+.links{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:.55rem;
+  flex:1;
+}
+
+.lcard{
+  display:flex;align-items:center;gap:.65rem;
+  padding:.65rem .9rem;
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:var(--radius);text-decoration:none;color:var(--text);
+  backdrop-filter:blur(12px);transition:all .22s;
+  position:relative;overflow:hidden;
+}
+.lcard::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--accent),var(--accent2));
+  opacity:0;transition:opacity .2s;
+}
+.lcard:hover{border-color:var(--border2);transform:translateX(3px);
+  box-shadow:0 6px 22px rgba(241,113,56,0.1);}
+.lcard:hover::before{opacity:1;}
+.lcard.c .licon{background:rgba(56,189,248,0.1);border-color:rgba(56,189,248,.15);color:var(--cyan);}
+.lcard.c::before{background:linear-gradient(180deg,var(--cyan),#7dd3fc);}
+.lcard.c:hover{border-color:rgba(56,189,248,.35);box-shadow:0 6px 22px rgba(56,189,248,0.08);}
+
+.licon{
+  width:34px;height:34px;border-radius:9px;flex-shrink:0;
+  background:rgba(241,113,56,0.1);border:1px solid rgba(241,113,56,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;color:var(--accent);transition:background .2s;
+}
+.lcard:hover .licon{background:rgba(241,113,56,.18);}
+.lcard.c:hover .licon{background:rgba(56,189,248,.18);}
+.ltxt .ln{font-weight:600;font-size:.8rem;margin-bottom:1px;}
+.ltxt .ld{font-size:.62rem;color:var(--muted);font-family:'Space Mono',monospace;}
+.larr{margin-left:auto;color:var(--muted);font-size:.65rem;flex-shrink:0;transition:transform .2s,color .2s;}
+.lcard:hover .larr{transform:translateX(3px);color:var(--accent);}
+.lcard.c:hover .larr{color:var(--cyan);}
+
+/* ── FOOTER ── */
+.foot{
+  text-align:center;margin-top:.8rem;
+  font-family:'Space Mono',monospace;font-size:.55rem;
+  color:var(--muted);letter-spacing:.1em;text-transform:uppercase;line-height:1.9;
+}
+</style>
+</head>
+<body>
+
+<button class="theme-btn" id="themeBtn"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+
+<div class="page">
+
+  <!-- TOP ROW: hex photo + info -->
+  <div class="top">
+    <div class="avatar-hex">
+      <img src="my.jpg" alt="Kavindu Sahan"
+        onerror="this.style.display='none';document.getElementById('avFb').style.display='flex';"/>
+      <div class="av-fb" id="avFb" style="display:none;">
+        <span>KS</span><small>SAHAN</small>
+      </div>
+    </div>
+    <div class="info">
+      <div class="status-pill"><div class="sdot"></div>[ACTIVE] Hunting Flags</div>
+      <div class="name">Kavindu Sahan</div>
+      <div class="role">Cybersecurity &nbsp;·&nbsp; Pen Tester</div>
+      <p class="bio">CS Undergraduate @ Eastern University, Trincomalee · Breaking systems &amp; capturing flags.</p>
+    </div>
+  </div>
+
+  <!-- WHATSAPP CTA -->
+  <a href="https://wa.me/94760843065" target="_blank" rel="noopener" class="cta">
+    <i class="fa-brands fa-whatsapp" style="font-size:1.1rem;"></i>
+    <span>Connect on WhatsApp</span>
+    <i class="fa-solid fa-arrow-right" style="font-size:.75rem;"></i>
+  </a>
+
+  <!-- DIVIDER -->
+  <div class="divider">Links</div>
+
+  <!-- LINKS 2-col grid -->
+  <div class="links">
+
+    <a href="index.html" class="lcard">
+      <div class="licon"><i class="fa-solid fa-user-astronaut"></i></div>
+      <div class="ltxt"><div class="ln">About Me</div><div class="ld">Portfolio</div></div>
+      <i class="fa-solid fa-arrow-right larr"></i>
+    </a>
+
+    <a href="mailto:kavindusahan821@gmail.com" class="lcard c">
+      <div class="licon"><i class="fa-solid fa-envelope"></i></div>
+      <div class="ltxt"><div class="ln">Email</div><div class="ld">Gmail</div></div>
+      <i class="fa-solid fa-arrow-right larr"></i>
+    </a>
+
+    <a href="certificates.html" target="_blank" rel="noopener" class="lcard">
+      <div class="licon"><i class="fa-solid fa-certificate"></i></div>
+      <div class="ltxt"><div class="ln">Certificates</div><div class="ld">View all</div></div>
+      <i class="fa-solid fa-arrow-right larr"></i>
+    </a>
+
+    <a href="https://github.com/Sahan7768" target="_blank" rel="noopener" class="lcard c">
+      <div class="licon"><i class="fa-brands fa-github"></i></div>
+      <div class="ltxt"><div class="ln">GitHub</div><div class="ld">Sahan7768</div></div>
+      <i class="fa-solid fa-arrow-right larr"></i>
+    </a>
+
+    <a href="https://www.linkedin.com/in/sahan-chandrapala-62624a38a/" target="_blank" rel="noopener" class="lcard">
+      <div class="licon"><i class="fa-brands fa-linkedin-in"></i></div>
+      <div class="ltxt"><div class="ln">LinkedIn</div><div class="ld">Profile</div></div>
+      <i class="fa-solid fa-arrow-right larr"></i>
+    </a>
+
+    <a href="#" target="_blank" rel="noopener" class="lcard c">
+      <div class="licon"><i class="fa-solid fa-blog"></i></div>
+      <div class="ltxt"><div class="ln">Blog</div><div class="ld">Writeups</div></div>
+      <i class="fa-solid fa-arrow-right larr"></i>
+    </a>
+
+    <a href="https://tryhackme.com/p/kavindusahan821" target="_blank" rel="noopener" class="lcard">
+      <div class="licon"><i class="fa-solid fa-flag"></i></div>
+      <div class="ltxt"><div class="ln">TryHackMe</div><div class="ld">kavindusahan821</div></div>
+      <i class="fa-solid fa-arrow-right larr"></i>
+    </a>
+
+    <a href="https://profile.hackthebox.com/" target="_blank" rel="noopener" class="lcard c">
+      <div class="licon"><i class="fa-solid fa-cube"></i></div>
+      <div class="ltxt"><div class="ln">HackTheBox</div><div class="ld">Labs &amp; Machines</div></div>
+      <i class="fa-solid fa-arrow-right larr"></i>
+    </a>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="foot">
+    ⚙️ Red team · Offensive security · CTF &nbsp;|&nbsp; Eastern University, Sri Lanka<br/>
+    © 2025 Chandrapala H.K.S.
+  </div>
+
+</div>
+
+<script>
+(function(){
+  const btn=document.getElementById('themeBtn');
+  const icon=document.getElementById('themeIcon');
+  const body=document.body;
+  if(localStorage.getItem('sahan-theme')==='light'){
+    body.classList.add('light');icon.className='fa-solid fa-sun';
+  }
+  btn.addEventListener('click',()=>{
+    body.classList.toggle('light');
+    const l=body.classList.contains('light');
+    icon.className=l?'fa-solid fa-sun':'fa-solid fa-moon';
+    localStorage.setItem('sahan-theme',l?'light':'dark');
+  });
+})();
+</script>
+</body>
+</html>

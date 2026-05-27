@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Certificates · Kavindu Sahan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+:root{
+  --bg:#05080f;
+  --surface:#0c1120;
+  --surface2:#111827;
+  --border:rgba(241,113,56,0.18);
+  --border2:rgba(241,113,56,0.4);
+  --accent:#f17138;
+  --accent2:#ff9f6b;
+  --cyan:#38bdf8;
+  --text:#f1f5f9;
+  --muted:#64748b;
+  --muted2:#94a3b8;
+  --card-bg:rgba(17,24,39,0.8);
+  --radius:16px;
+}
+body.light{
+  --bg:#f5f0eb;
+  --surface:#fff8f3;
+  --surface2:#fdf5ee;
+  --border:rgba(241,113,56,0.2);
+  --border2:rgba(241,113,56,0.5);
+  --text:#1a1714;
+  --muted:#78716c;
+  --muted2:#a8a29e;
+  --card-bg:rgba(255,252,249,0.9);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px;}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Space Grotesk',sans-serif;
+  min-height:100vh;transition:background .35s,color .35s;
+  position:relative;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%,rgba(241,113,56,0.12) 0%,transparent 65%),
+    linear-gradient(rgba(241,113,56,0.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(241,113,56,0.025) 1px,transparent 1px);
+  background-size:100% 100%,55px 55px,55px 55px;
+  pointer-events:none;z-index:0;
+}
+
+/* ── THEME BTN ── */
+.theme-btn{
+  position:fixed;top:1rem;right:1rem;z-index:200;
+  width:38px;height:38px;border-radius:50%;
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--text);font-size:.9rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;backdrop-filter:blur(10px);
+}
+.theme-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── BACK BTN ── */
+.back-btn{
+  position:fixed;top:1rem;left:1rem;z-index:200;
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 14px;border-radius:30px;
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--muted2);font-size:.72rem;font-family:'Space Mono',monospace;
+  letter-spacing:.08em;text-decoration:none;
+  transition:all .2s;backdrop-filter:blur(10px);
+}
+.back-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── WRAP ── */
+.wrap{
+  position:relative;z-index:1;
+  max-width:960px;margin:0 auto;
+  padding:5rem 2rem 4rem;
+}
+
+/* ── HEADER ── */
+.page-header{margin-bottom:2.5rem;}
+.page-tag{
+  font-family:'Space Mono',monospace;font-size:.7rem;
+  color:var(--accent);letter-spacing:.2em;text-transform:uppercase;
+  margin-bottom:.5rem;
+}
+.page-title{
+  font-size:2.2rem;font-weight:700;letter-spacing:-.02em;
+  color:var(--text);margin-bottom:.4rem;
+}
+.page-sub{font-size:.85rem;color:var(--muted2);line-height:1.7;}
+.accent-line{
+  width:60px;height:3px;margin-top:.8rem;border-radius:2px;
+  background:linear-gradient(90deg,var(--accent),var(--cyan));
+}
+
+/* ── GRID ── */
+.cert-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+  gap:1.4rem;
+}
+
+/* ── CERT CARD ── */
+.cert-card{
+  background:var(--card-bg);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  backdrop-filter:blur(14px);
+  display:flex;flex-direction:column;
+  transition:all .25s;
+  position:relative;
+}
+.cert-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),var(--cyan));
+  opacity:0;transition:opacity .25s;
+}
+.cert-card:hover{
+  border-color:var(--border2);
+  transform:translateY(-5px);
+  box-shadow:0 14px 40px rgba(241,113,56,0.12);
+}
+.cert-card:hover::before{opacity:1;}
+
+/* image area */
+.cert-img-wrap{
+  width:100%;height:170px;
+  background:linear-gradient(135deg,rgba(17,24,39,0.9),rgba(11,18,32,0.95));
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;border-bottom:1px solid var(--border);
+  position:relative;
+}
+.cert-img-wrap img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .35s;
+}
+.cert-card:hover .cert-img-wrap img{transform:scale(1.05);}
+.cert-placeholder{
+  display:flex;flex-direction:column;align-items:center;gap:.6rem;
+  color:var(--muted);
+}
+.cert-placeholder i{font-size:2.5rem;color:var(--accent);opacity:.4;}
+.cert-placeholder span{font-size:.68rem;font-family:'Space Mono',monospace;letter-spacing:.1em;text-transform:uppercase;}
+
+/* badge */
+.cert-badge{
+  position:absolute;top:.65rem;right:.65rem;
+  font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
+  padding:3px 9px;border-radius:20px;font-family:'Space Mono',monospace;
+  background:rgba(241,113,56,0.15);border:1px solid rgba(241,113,56,.25);
+  color:var(--accent);
+}
+.cert-badge.verified{
+  background:rgba(56,189,248,0.12);border-color:rgba(56,189,248,.25);
+  color:var(--cyan);
+}
+
+/* body */
+.cert-body{padding:1.1rem 1.2rem 1.3rem;flex:1;display:flex;flex-direction:column;}
+.cert-issuer{
+  font-family:'Space Mono',monospace;font-size:.62rem;
+  color:var(--accent);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem;
+}
+.cert-name{
+  font-size:1rem;font-weight:600;color:var(--text);
+  line-height:1.35;margin-bottom:.4rem;
+}
+.cert-date{
+  font-size:.68rem;color:var(--muted);font-family:'Space Mono',monospace;
+  margin-bottom:.9rem;
+}
+.cert-desc{font-size:.75rem;color:var(--muted2);line-height:1.65;margin-bottom:1rem;flex:1;}
+
+.cert-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.72rem;font-family:'Space Mono',monospace;
+  color:var(--accent);text-decoration:none;letter-spacing:.06em;
+  border-bottom:1px solid rgba(241,113,56,.3);padding-bottom:2px;
+  transition:border-color .2s,color .2s;width:fit-content;
+}
+.cert-link:hover{color:var(--accent2);border-color:var(--accent2);}
+.cert-link.cyan{color:var(--cyan);border-color:rgba(56,189,248,.3);}
+.cert-link.cyan:hover{color:#7dd3fc;border-color:#7dd3fc;}
+
+/* ── STATS BAR ── */
+.stats-bar{
+  display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap;
+  margin-bottom:2rem;padding:1rem 1.4rem;
+  background:var(--card-bg);border:1px solid var(--border);
+  border-radius:var(--radius);backdrop-filter:blur(12px);
+}
+.stat-item{display:flex;align-items:center;gap:.6rem;}
+.stat-num{
+  font-family:'Space Mono',monospace;font-size:1.3rem;
+  font-weight:700;color:var(--accent);
+}
+.stat-label{font-size:.7rem;color:var(--muted);letter-spacing:.06em;}
+.stat-sep{width:1px;height:30px;background:var(--border);}
+
+/* ── FOOTER ── */
+.page-foot{
+  text-align:center;margin-top:3rem;
+  font-family:'Space Mono',monospace;font-size:.58rem;
+  color:var(--muted);letter-spacing:.12em;text-transform:uppercase;line-height:2;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .wrap{padding:4.5rem 1rem 3rem;}
+  .page-title{font-size:1.7rem;}
+  .cert-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<a href="linktree.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
+<button class="theme-btn" id="themeBtn"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-tag">// CREDENTIALS</div>
+    <h1 class="page-title">My Certificates</h1>
+    <p class="page-sub">Verified certifications &amp; achievements in cybersecurity and computer science.</p>
+    <div class="accent-line"></div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Certificates<br/>Earned</div>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat-item">
+      <div class="stat-num">2</div>
+      <div class="stat-label">Security<br/>Focused</div>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat-item">
+      <div class="stat-num">2025</div>
+      <div class="stat-label">Latest<br/>Year</div>
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <div class="cert-grid">
+
+    <!-- CERT 1: ISC2 CC -->
+    <div class="cert-card">
+      <div class="cert-img-wrap">
+        <!--
+          Replace with:
+          <img src="cert-isc2.jpg" alt="ISC2 CC Certificate"/>
+          Image file: cert-isc2.jpg — screenshot or scan of your ISC2 certificate
+        -->
+        <div class="cert-placeholder">
+          <i class="fa-solid fa-shield-halved"></i>
+          <span>cert-isc2.jpg</span>
+        </div>
+        <div class="cert-badge verified">Verified</div>
+      </div>
+      <div class="cert-body">
+        <div class="cert-issuer"><i class="fa-solid fa-building-shield"></i> &nbsp;ISC2</div>
+        <div class="cert-name">Certified in Cybersecurity (CC)</div>
+        <div class="cert-date"><i class="fa-regular fa-calendar"></i> &nbsp;2025</div>
+        <div class="cert-desc">Foundational cybersecurity certification covering security principles, business continuity, access controls, network security, and security operations.</div>
+        <a href="https://isc2.obrizum.io/org/cc/certificate" target="_blank" rel="noopener" class="cert-link cyan">
+          <i class="fa-solid fa-up-right-from-square"></i> View Certificate
+        </a>
+      </div>
+    </div>
+
+    <!-- CERT 2: TryHackMe -->
+    <div class="cert-card">
+      <div class="cert-img-wrap">
+        <!--
+          Replace with:
+          <img src="cert-tryhackme.jpg" alt="TryHackMe Certificate"/>
+          Image file: cert-tryhackme.jpg
+        -->
+        <div class="cert-placeholder">
+          <i class="fa-solid fa-flag"></i>
+          <span>cert-tryhackme.jpg</span>
+        </div>
+        <div class="cert-badge">Achievement</div>
+      </div>
+      <div class="cert-body">
+        <div class="cert-issuer"><i class="fa-solid fa-flag"></i> &nbsp;TryHackMe</div>
+        <div class="cert-name">Pre Security Learning Path</div>
+        <div class="cert-date"><i class="fa-regular fa-calendar"></i> &nbsp;2024</div>
+        <div class="cert-desc">Completed the Pre-Security path covering networking, web fundamentals, Linux fundamentals and how the internet works — entry point into offensive security.</div>
+        <a href="https://tryhackme.com/p/kavindusahan821" target="_blank" rel="noopener" class="cert-link">
+          <i class="fa-solid fa-up-right-from-square"></i> View Profile
+        </a>
+      </div>
+    </div>
+
+    <!-- CERT 3: HackTheBox -->
+    <div class="cert-card">
+      <div class="cert-img-wrap">
+        <!--
+          Replace with:
+          <img src="cert-htb.jpg" alt="HackTheBox Certificate"/>
+          Image file: cert-htb.jpg
+        -->
+        <div class="cert-placeholder">
+          <i class="fa-solid fa-cube"></i>
+          <span>cert-htb.jpg</span>
+        </div>
+        <div class="cert-badge">Achievement</div>
+      </div>
+      <div class="cert-body">
+        <div class="cert-issuer"><i class="fa-solid fa-cube"></i> &nbsp;HackTheBox</div>
+        <div class="cert-name">Starting Point — Tier Completion</div>
+        <div class="cert-date"><i class="fa-regular fa-calendar"></i> &nbsp;2024</div>
+        <div class="cert-desc">Completed the HackTheBox Starting Point tier — hands-on penetration testing labs covering enumeration, exploitation, and privilege escalation on real machines.</div>
+        <a href="https://profile.hackthebox.com/" target="_blank" rel="noopener" class="cert-link">
+          <i class="fa-solid fa-up-right-from-square"></i> View Profile
+        </a>
+      </div>
+    </div>
+
+    <!-- ADD MORE CERT CARDS HERE following same pattern -->
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="page-foot">
+    Chandrapala H.K.S. (SAHAN) · Eastern University, Trincomalee · Sri Lanka<br/>
+    © 2025 · All certifications are verified &amp; authentic
+  </div>
+
+</div>
+
+<script>
+(function(){
+  const btn=document.getElementById('themeBtn');
+  const icon=document.getElementById('themeIcon');
+  const body=document.body;
+  if(localStorage.getItem('sahan-theme')==='light'){
+    body.classList.add('light');icon.className='fa-solid fa-sun';
+  }
+  btn.addEventListener('click',()=>{
+    body.classList.toggle('light');
+    const l=body.classList.contains('light');
+    icon.className=l?'fa-solid fa-sun':'fa-solid fa-moon';
+    localStorage.setItem('sahan-theme',l?'light':'dark');
+  });
+})();
+</script>
+</body>
+</html>
