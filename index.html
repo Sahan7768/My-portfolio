@@ -3,1363 +3,353 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>SAHAN · Cybersecurity Portfolio</title>
+<title>Kavindu Sahan · Cybersecurity</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <style>
 :root{
-  --bg:#0a0c0f;
-  --bg2:#0d1117;
-  --bg3:#111620;
-  --green:#00ff41;
-  --cyan:#00b8ff;
-  --red:#ff3864;
-  --card:rgba(13,17,23,0.85);
-  --border:rgba(0,255,65,0.15);
-  --border2:rgba(0,184,255,0.15);
-  --glow:0 0 20px rgba(0,255,65,0.3);
-  --glow2:0 0 20px rgba(0,184,255,0.3);
-  --mono:'JetBrains Mono',monospace;
-  --display:'Rajdhani',sans-serif;
+  --bg:#05080f;
+  --surface2:#111827;
+  --border:rgba(241,113,56,0.18);
+  --border2:rgba(241,113,56,0.38);
+  --accent:#f17138;
+  --accent2:#ff9f6b;
+  --cyan:#38bdf8;
+  --text:#f1f5f9;
+  --muted:#64748b;
+  --muted2:#94a3b8;
+  --card-bg:rgba(17,24,39,0.75);
+  --radius:14px;
 }
-
+body.light{
+  --bg:#f5f0eb;
+  --surface2:#fff8f3;
+  --border:rgba(241,113,56,0.22);
+  --border2:rgba(241,113,56,0.5);
+  --text:#1a1714;
+  --muted:#78716c;
+  --muted2:#a8a29e;
+  --card-bg:rgba(255,252,249,0.88);
+}
 *{margin:0;padding:0;box-sizing:border-box;}
-
-html{scroll-behavior:smooth;}
-
-::-webkit-scrollbar{width:6px;}
-::-webkit-scrollbar-track{background:var(--bg);}
-::-webkit-scrollbar-thumb{background:var(--green);border-radius:3px;}
-::-webkit-scrollbar-thumb:hover{background:#00cc33;}
-
+html,body{height:100%;overflow:hidden;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px;}
 body{
   background:var(--bg);
-  color:#c9d1d9;
-  font-family:var(--mono);
-  overflow-x:hidden;
-  line-height:1.7;
+  color:var(--text);
+  font-family:'Space Grotesk',sans-serif;
+  transition:background .35s,color .35s;
+  position:relative;
+  padding:0;margin:0;
+}
+/* grid bg */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    radial-gradient(ellipse 90% 55% at 50% -10%,rgba(241,113,56,0.13) 0%,transparent 65%),
+    linear-gradient(rgba(241,113,56,0.028) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(241,113,56,0.028) 1px,transparent 1px);
+  background-size:100% 100%,55px 55px,55px 55px;
+  pointer-events:none;z-index:0;
+}
+/* theme btn */
+.theme-btn{
+  position:fixed;top:1rem;right:1rem;z-index:200;
+  width:38px;height:38px;border-radius:50%;
+  background:var(--surface2);border:1px solid var(--border);
+  color:var(--text);font-size:0.9rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;backdrop-filter:blur(10px);
+}
+.theme-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ── MAIN CARD ── */
+.page{
+  position:relative;z-index:1;
+  width:min(920px,96vw);
+  margin:0 auto;
+  height:100vh;
+  max-height:100vh;
+  display:flex;
+  overflow:visible;
+  flex-direction:column;
+  gap:0.8rem;
+  padding:1.6rem 1.6rem;
+  background:rgba(255,255,255,0.02);
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.03);
+  box-shadow:0 10px 30px rgba(2,6,23,0.5);
 }
 
-/* ── GRID BG ── */
-body::before{
+/* ── TOP: photo + info side by side ── */
+.top{
+  display:flex;
+  align-items:center;
+  gap:1.2rem;
+  margin-bottom:1rem;
+}
+
+/* hexagonal clip picture */
+.avatar-hex{
+  flex-shrink:0;
+  position:relative;
+  width:180px;height:180px;
+}
+.avatar-hex::before{
   content:'';
-  position:fixed;
-  inset:0;
-  background-image:
-    linear-gradient(rgba(0,255,65,0.03) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,255,65,0.03) 1px,transparent 1px);
-  background-size:50px 50px;
-  pointer-events:none;
+  position:absolute;inset:-3px;
+  background:conic-gradient(var(--accent),var(--cyan),var(--accent2),var(--accent));
+  clip-path:polygon(50% 0%,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);
+  animation:spin 5s linear infinite;
   z-index:0;
 }
+@keyframes spin{to{transform:rotate(360deg);}}
+.avatar-hex img,.avatar-hex .av-fb{
+  position:relative;z-index:1;
+  width:174px;height:174px;
+  clip-path:polygon(50% 0%,93% 25%,93% 75%,50% 100%,7% 75%,7% 25%);
+  object-fit:cover;object-position:top center;
+  display:block;margin:3px 0 0 3px;
+}
+.av-fb{
+  background:linear-gradient(135deg,rgba(241,113,56,0.18),rgba(56,189,248,0.14));
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:2px;
+}
+.av-fb span{font-family:'Space Mono',monospace;font-size:1.8rem;font-weight:700;color:var(--accent);}
+.av-fb small{font-size:0.5rem;letter-spacing:.2em;color:var(--muted2);text-transform:uppercase;}
 
-/* ── NAV ── */
-nav{
-  position:fixed;
-  top:0;left:0;right:0;
-  z-index:1000;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0.9rem 2.5rem;
-  background:rgba(10,12,15,0.92);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border);
+.info{flex:1;min-width:0;}
+.status-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:'Space Mono',monospace;font-size:0.58rem;
+  letter-spacing:.1em;color:var(--accent);
+  background:rgba(241,113,56,0.08);border:1px solid rgba(241,113,56,0.2);
+  padding:3px 10px;border-radius:30px;margin-bottom:0.45rem;
+}
+.sdot{width:5px;height:5px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 7px var(--accent);animation:pulse 1.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.5);opacity:.5;}}
+.name{font-size:2rem;font-weight:700;letter-spacing:-.02em;line-height:1.05;margin-bottom:.18rem;}
+.role{font-family:'Space Mono',monospace;font-size:0.78rem;color:var(--accent);letter-spacing:.04em;margin-bottom:.4rem;}
+.bio{font-size:0.92rem;color:var(--muted2);line-height:1.6;}
+
+/* ── WHATSAPP CTA ── */
+.cta{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:.4rem .6rem;margin-top:.5rem;
+  background:linear-gradient(135deg,rgba(241,113,56,0.12),rgba(255,159,107,0.06));
+  border:1px solid rgba(241,113,56,0.12);border-radius:8px;
+  text-decoration:none;color:var(--accent);font-weight:600;font-size:.76rem;
+  transition:all .12s;position:relative;overflow:visible;align-self:flex-start;
+}
+.cta:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(241,113,56,0.12);}
+
+/* ── DIVIDER ── */
+.divider{
+  display:flex;align-items:center;gap:.6rem;margin-bottom:.7rem;
+  color:var(--muted);font-family:'Space Mono',monospace;
+  font-size:0.58rem;letter-spacing:.2em;text-transform:uppercase;
+}
+.divider::before,.divider::after{
+  content:'';flex:1;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
 }
 
-.nav-logo{
-  font-family:var(--mono);
-  font-size:0.85rem;
-  color:var(--green);
-  letter-spacing:0.1em;
-}
-
-.nav-logo span{color:#666;}
-
-.nav-links{
-  display:flex;
-  gap:1.8rem;
-  list-style:none;
-}
-
-.nav-links a{
-  font-size:0.72rem;
-  color:#8b949e;
-  text-decoration:none;
-  letter-spacing:0.12em;
-  text-transform:uppercase;
-  transition:color 0.2s;
-}
-
-.nav-links a:hover{color:var(--green);}
-
-.status-badge{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  font-size:0.68rem;
-  color:var(--green);
-  letter-spacing:0.1em;
-  background:rgba(0,255,65,0.06);
-  border:1px solid rgba(0,255,65,0.2);
-  padding:4px 10px;
-  border-radius:4px;
-}
-
-.status-dot{
-  width:7px;height:7px;
-  border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 8px var(--green);
-  animation:blink 1.2s step-end infinite;
-}
-
-@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
-
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
-.hamburger span{display:block;width:22px;height:1.5px;background:var(--green);}
-
-/* ── COMMON ── */
-section{
-  position:relative;
-  z-index:1;
-  padding:6rem 2.5rem;
-  max-width:1100px;
-  margin:0 auto;
-}
-
-.section-heading{
-  font-family:var(--mono);
-  font-size:0.82rem;
-  color:var(--green);
-  letter-spacing:0.2em;
-  text-transform:uppercase;
-  margin-bottom:0.4rem;
-}
-
-.section-title{
-  font-family:var(--display);
-  font-size:2.2rem;
-  font-weight:700;
-  color:#e6edf3;
-  margin-bottom:2.5rem;
-  padding-bottom:0.6rem;
-  border-bottom:1px solid var(--border);
-  display:flex;
-  align-items:center;
-  gap:0.6rem;
-}
-
-.section-title::before{
-  content:'';
-  display:inline-block;
-  width:3px;height:1.8rem;
-  background:var(--green);
-  box-shadow:0 0 10px var(--green);
-}
-
-/* fade-in animations */
-.reveal{
-  opacity:0;
-  transform:translateY(30px);
-  transition:opacity 0.7s ease,transform 0.7s ease;
-}
-.reveal.visible{opacity:1;transform:translateY(0);}
-
-/* ── HERO ── */
-#hero{
-  min-height:100vh;
-  max-width:100%;
-  display:flex;
-  align-items:center;
-  padding:0 6vw;
-  padding-top:80px;
-}
-
-.hero-inner{
-  max-width:1100px;
-  margin:0 auto;
-  width:100%;
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:4rem;
-  align-items:center;
-}
-
-.hero-tag{
-  font-size:0.8rem;
-  color:var(--green);
-  letter-spacing:0.25em;
-  margin-bottom:1.2rem;
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.hero-tag::after{
-  content:'';
-  display:inline-block;
-  width:9px;height:14px;
-  background:var(--green);
-  box-shadow:0 0 8px var(--green);
-  animation:cursor-blink 1s step-end infinite;
-  vertical-align:middle;
-}
-
-@keyframes cursor-blink{0%,100%{opacity:1;}50%{opacity:0;}}
-
-.hero-name{
-  font-family:var(--display);
-  font-size:clamp(2.8rem,6vw,5rem);
-  font-weight:700;
-  line-height:1.0;
-  color:#e6edf3;
-  letter-spacing:-0.01em;
-  text-shadow:0 0 60px rgba(0,255,65,0.1);
-  margin-bottom:0.3rem;
-}
-
-.hero-alias{
-  font-family:var(--mono);
-  font-size:1.2rem;
-  color:var(--green);
-  letter-spacing:0.08em;
-  margin-bottom:0.9rem;
-  text-shadow:var(--glow);
-}
-
-.hero-sub{
-  font-family:var(--mono);
-  font-size:0.82rem;
-  color:#8b949e;
-  margin-bottom:0.5rem;
-  letter-spacing:0.04em;
-}
-
-.hero-desc{
-  font-size:0.9rem;
-  color:#c9d1d9;
-  margin-bottom:2.2rem;
-  max-width:480px;
-  line-height:1.9;
-}
-
-.hero-cta{
-  display:flex;
-  gap:1rem;
-  flex-wrap:wrap;
-}
-
-.btn{
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  padding:0.7rem 1.6rem;
-  font-family:var(--mono);
-  font-size:0.78rem;
-  letter-spacing:0.12em;
-  text-transform:uppercase;
-  text-decoration:none;
-  border-radius:4px;
-  cursor:pointer;
-  transition:all 0.25s;
-  border:none;
-}
-
-.btn-primary{
-  background:rgba(0,255,65,0.1);
-  border:1px solid var(--green);
-  color:var(--green);
-}
-
-.btn-primary:hover{
-  background:rgba(0,255,65,0.18);
-  box-shadow:var(--glow);
-  transform:translateY(-2px);
-}
-
-.btn-secondary{
-  background:rgba(0,184,255,0.07);
-  border:1px solid var(--cyan);
-  color:var(--cyan);
-}
-
-.btn-secondary:hover{
-  background:rgba(0,184,255,0.15);
-  box-shadow:var(--glow2);
-  transform:translateY(-2px);
-}
-
-/* hero image */
-.hero-image-wrap{
-  flex-shrink:0;
-}
-
-.hero-hex{
-  position:relative;
-  width:260px;
-  height:300px;
-}
-
-.hex-svg-bg{position:absolute;top:0;left:0;}
-
-.hero-hex-inner{
-  position:absolute;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  text-align:center;
-}
-
-.hex-img{
-  width:180px;height:180px;
-  object-fit:cover;
-  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
-  display:block;
-  margin:0 auto 0.5rem;
-}
-
-.hex-img-placeholder{
-  width:180px;height:180px;
-  background:linear-gradient(135deg,rgba(0,255,65,0.08),rgba(0,184,255,0.08));
-  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  font-family:var(--mono);
-  color:var(--green);
-  font-size:3.5rem;
-  font-weight:700;
-  margin:0 auto 0.5rem;
-  border:2px solid rgba(0,255,65,0.2);
-  /* Replace with: <img src="hero-image.png" class="hex-img" alt="SAHAN"> */
-  /* IMAGE_PLACEHOLDER: stylized hooded figure with terminal and glowing SAHAN text, neon green and cyan, dark background, cybersecurity theme */
-}
-
-.hex-label{
-  font-size:0.7rem;
-  letter-spacing:0.2em;
-  color:rgba(0,255,65,0.5);
-}
-
-/* ── ABOUT ── */
-#about{border-top:1px solid rgba(255,255,255,0.04);}
-
-.about-grid{
-  display:grid;
-  grid-template-columns:1fr 280px;
-  gap:3rem;
-  align-items:start;
-}
-
-.about-text p{
-  font-size:0.9rem;
-  line-height:2;
-  color:#c9d1d9;
-  margin-bottom:1.2rem;
-}
-
-.about-text p strong{color:var(--green);}
-
-.stats-grid{
+/* ── LINKS GRID ── */
+.links{
   display:grid;
   grid-template-columns:1fr;
   gap:1rem;
-}
-
-.stat-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-left:3px solid var(--green);
-  padding:1rem 1.25rem;
-  backdrop-filter:blur(10px);
-  transition:border-color 0.2s,box-shadow 0.2s;
-}
-
-.stat-card:hover{
-  border-color:rgba(0,255,65,0.5);
-  box-shadow:var(--glow);
-}
-
-.stat-num{
-  font-family:var(--display);
-  font-size:2rem;
-  font-weight:700;
-  color:var(--green);
-  text-shadow:var(--glow);
-  line-height:1;
-}
-
-.stat-label{
-  font-size:0.68rem;
-  color:#8b949e;
-  letter-spacing:0.15em;
-  text-transform:uppercase;
-  margin-top:0.25rem;
-}
-
-/* ── ARSENAL ── */
-#arsenal{border-top:1px solid rgba(255,255,255,0.04);}
-
-.arsenal-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
-  gap:1.2rem;
-}
-
-.tool-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  padding:1.4rem 1.2rem;
-  backdrop-filter:blur(12px);
-  position:relative;
-  overflow:hidden;
-  transition:border-color 0.25s,transform 0.25s,box-shadow 0.25s;
-}
-
-.tool-card::before{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;
-  height:2px;
-  background:linear-gradient(90deg,var(--green),var(--cyan));
-  opacity:0;
-  transition:opacity 0.25s;
-}
-
-.tool-card:hover{
-  border-color:rgba(0,255,65,0.4);
-  transform:translateY(-4px);
-  box-shadow:0 8px 30px rgba(0,255,65,0.1);
-}
-
-.tool-card:hover::before{opacity:1;}
-
-.tool-icon-wrap{
-  width:44px;height:44px;
-  background:rgba(0,255,65,0.07);
-  border:1px solid rgba(0,255,65,0.15);
-  border-radius:8px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:1.25rem;
-  color:var(--green);
-  margin-bottom:1rem;
-}
-
-.tool-name{
-  font-family:var(--display);
-  font-size:1.05rem;
-  font-weight:600;
-  color:#e6edf3;
-  margin-bottom:0.3rem;
-}
-
-.tool-desc{
-  font-size:0.72rem;
-  color:#8b949e;
-  line-height:1.6;
-  margin-bottom:1rem;
-}
-
-.skill-bar-wrap{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.skill-bar-bg{
   flex:1;
-  height:3px;
-  background:rgba(255,255,255,0.06);
-  border-radius:2px;
-  overflow:hidden;
+  margin-top:0.6rem;
 }
 
-.skill-bar-fill{
-  height:100%;
-  background:linear-gradient(90deg,var(--green),var(--cyan));
-  border-radius:2px;
-  box-shadow:0 0 8px rgba(0,255,65,0.5);
-  transition:width 1.2s ease;
-  width:0%;
+@media(min-width:760px){
+  .links{grid-template-columns:1fr 1fr;gap:1.25rem;}
 }
 
-.skill-pct{
-  font-size:0.68rem;
-  color:var(--green);
-  min-width:30px;
-  text-align:right;
-}
-
-/* ── PLATFORMS ── */
-#platforms{border-top:1px solid rgba(255,255,255,0.04);}
-
-.platforms-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:1.5rem;
-}
-
-.platform-card{
-  background:var(--card);
-  border:1px solid var(--border2);
-  padding:2rem;
-  backdrop-filter:blur(12px);
-  position:relative;
-  overflow:hidden;
-  transition:border-color 0.25s,box-shadow 0.25s;
-}
-
-.platform-card::after{
-  content:'';
-  position:absolute;
-  bottom:-60px;right:-60px;
-  width:150px;height:150px;
-  border-radius:50%;
-  background:radial-gradient(circle,rgba(0,184,255,0.06) 0%,transparent 70%);
-  pointer-events:none;
-}
-
-.platform-card:hover{
-  border-color:rgba(0,184,255,0.4);
-  box-shadow:0 8px 30px rgba(0,184,255,0.08);
-}
-
-.platform-header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:1.2rem;
-}
-
-.platform-name{
-  font-family:var(--display);
-  font-size:1.5rem;
-  font-weight:700;
-  color:#e6edf3;
-}
-
-.platform-icon{
-  width:44px;height:44px;
-  background:rgba(0,184,255,0.08);
-  border:1px solid rgba(0,184,255,0.2);
-  border-radius:8px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:1.25rem;
-  color:var(--cyan);
-}
-
-.platform-tags{
-  display:flex;
-  flex-wrap:wrap;
-  gap:0.5rem;
-  margin-bottom:1.2rem;
-}
-
-.tag{
-  font-size:0.65rem;
-  letter-spacing:0.1em;
-  text-transform:uppercase;
-  padding:3px 10px;
-  border-radius:3px;
-  background:rgba(0,184,255,0.08);
-  border:1px solid rgba(0,184,255,0.15);
-  color:var(--cyan);
-}
-
-.activity-badge{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  font-size:0.68rem;
-  color:#8b949e;
-  margin-bottom:1.4rem;
-}
-
-.activity-badge::before{
-  content:'';
-  width:6px;height:6px;
-  border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 6px var(--green);
-}
-
-.platform-link{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  font-size:0.75rem;
-  color:var(--cyan);
-  text-decoration:none;
-  letter-spacing:0.08em;
-  border-bottom:1px solid rgba(0,184,255,0.3);
-  padding-bottom:2px;
-  transition:border-color 0.2s,color 0.2s;
-}
-
-.platform-link:hover{
-  color:#fff;
-  border-color:var(--cyan);
-}
-
-/* ── WRITEUPS ── */
-#writeups{border-top:1px solid rgba(255,255,255,0.04);}
-
-.writeups-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:1.2rem;
-  margin-bottom:2rem;
-}
-
-.writeup-card{
-  background:var(--card);
-  border:1px solid rgba(255,255,255,0.06);
-  padding:1.5rem;
-  backdrop-filter:blur(10px);
-  display:flex;
-  flex-direction:column;
-  transition:border-color 0.25s,transform 0.25s;
-  position:relative;
-}
-
-.writeup-card:hover{
-  border-color:rgba(0,255,65,0.25);
-  transform:translateY(-3px);
-}
-
-.writeup-category{
-  font-size:0.65rem;
-  letter-spacing:0.15em;
-  text-transform:uppercase;
-  color:var(--green);
-  margin-bottom:0.6rem;
-}
-
-.writeup-title{
-  font-family:var(--display);
-  font-size:1.15rem;
-  font-weight:600;
-  color:#e6edf3;
-  margin-bottom:0.5rem;
-  line-height:1.4;
-}
-
-.writeup-date{
-  font-size:0.7rem;
-  color:#484f58;
-  margin-bottom:0.8rem;
-}
-
-.writeup-desc{
-  font-size:0.8rem;
-  color:#8b949e;
-  line-height:1.8;
-  flex:1;
-  margin-bottom:1.2rem;
-}
-
-.writeup-link{
-  font-size:0.75rem;
-  color:var(--green);
-  text-decoration:none;
-  display:flex;
-  align-items:center;
-  gap:5px;
-  transition:gap 0.2s;
-}
-
-.writeup-link:hover{gap:9px;}
-
-.writeups-footer{
-  text-align:center;
-  padding-top:1rem;
-  border-top:1px solid rgba(255,255,255,0.04);
-}
-
-.writeups-note{
-  font-size:0.78rem;
-  color:#8b949e;
-  margin-bottom:1rem;
-  font-style:italic;
-}
-
-/* ── CONTACT ── */
-#contact{border-top:1px solid rgba(255,255,255,0.04);}
-
-.contact-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:3rem;
-}
-
-.contact-heading{
-  font-family:var(--display);
-  font-size:1.1rem;
-  font-weight:600;
-  color:#e6edf3;
-  margin-bottom:1.5rem;
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.contact-heading i{color:var(--green);}
-
-.contact-item{
-  display:flex;
-  align-items:center;
-  gap:1rem;
+.lcard{
+  display:flex;align-items:center;gap:1rem;
   padding:1rem 1.2rem;
-  background:var(--card);
-  border:1px solid var(--border);
-  margin-bottom:0.8rem;
-  text-decoration:none;
-  color:#c9d1d9;
-  transition:border-color 0.2s,box-shadow 0.2s;
+  background:var(--card-bg);border:1px solid rgba(255,255,255,0.04);
+  border-radius:12px;text-decoration:none;color:var(--text);
+  backdrop-filter:blur(8px);transition:all .22s;
+  position:relative;overflow:hidden;
 }
-
-.contact-item:hover{
-  border-color:rgba(0,255,65,0.4);
-  box-shadow:var(--glow);
-  color:#e6edf3;
+.lcard::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--accent),var(--accent2));
+  opacity:0;transition:opacity .2s;
 }
+.lcard:hover{border-color:var(--border2);transform:translateX(3px);
+  box-shadow:0 6px 22px rgba(241,113,56,0.1);}
+.lcard:hover::before{opacity:1;}
+.lcard.c .licon{background:rgba(56,189,248,0.1);border-color:rgba(56,189,248,.15);color:var(--cyan);}
+.lcard.c::before{background:linear-gradient(180deg,var(--cyan),#7dd3fc);}
+.lcard.c:hover{border-color:rgba(56,189,248,.35);box-shadow:0 6px 22px rgba(56,189,248,0.08);}
 
-.contact-item-icon{
-  width:38px;height:38px;
-  background:rgba(0,255,65,0.07);
-  border-radius:6px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:1rem;
-  color:var(--green);
-  flex-shrink:0;
+.licon{
+  width:46px;height:46px;border-radius:10px;flex-shrink:0;
+  background:rgba(241,113,56,0.06);border:1px solid rgba(241,113,56,.12);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.15rem;color:var(--accent);transition:background .2s;
 }
-
-.contact-item-info{}
-
-.contact-item-label{
-  font-size:0.65rem;
-  color:#484f58;
-  letter-spacing:0.12em;
-  text-transform:uppercase;
-  margin-bottom:2px;
-}
-
-.contact-item-value{font-size:0.82rem;}
-
-.social-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:0.8rem;
-}
-
-.social-btn{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:0.9rem 1rem;
-  background:var(--card);
-  border:1px solid rgba(255,255,255,0.06);
-  text-decoration:none;
-  color:#c9d1d9;
-  font-size:0.78rem;
-  transition:all 0.2s;
-  position:relative;
-}
-
-.social-btn:hover{
-  border-color:rgba(0,184,255,0.4);
-  color:var(--cyan);
-  box-shadow:0 0 16px rgba(0,184,255,0.1);
-  transform:translateY(-2px);
-}
-
-.social-btn i{
-  font-size:1rem;
-  color:var(--cyan);
-  width:18px;
-  text-align:center;
-}
-
-.social-btn .ext-icon{
-  margin-left:auto;
-  font-size:0.6rem;
-  color:#484f58;
-}
+.lcard:hover .licon{background:rgba(241,113,56,.18);}
+.lcard.c:hover .licon{background:rgba(56,189,248,.18);}
+.ltxt .ln{font-weight:700;font-size:1rem;margin-bottom:2px;}
+.ltxt .ld{font-size:.82rem;color:var(--muted);font-family:'Space Mono',monospace;}
+.larr{margin-left:auto;color:var(--muted);font-size:.82rem;flex-shrink:0;transition:transform .2s,color .2s;}
+.lcard:hover .larr{transform:translateX(3px);color:var(--accent);}
+.lcard.c:hover .larr{color:var(--cyan);}
 
 /* ── FOOTER ── */
-footer{
-  position:relative;
-  z-index:1;
-  border-top:1px solid rgba(255,255,255,0.04);
-  padding:2.5rem;
-  text-align:center;
+  .foot{
+  text-align:center;margin-top:1rem;padding-bottom:1rem;
+  font-family:'Space Mono',monospace;font-size:.78rem;
+  color:var(--muted);letter-spacing:.06em;text-transform:none;line-height:1.6;
 }
 
-.footer-brand{
-  font-family:var(--mono);
-  font-size:0.72rem;
-  color:#484f58;
-  letter-spacing:0.15em;
-  text-transform:uppercase;
-  margin-bottom:0.5rem;
+@media(min-width:1000px){
+  .page{padding:2rem 3.2rem;}
+  .top{gap:1.6rem;}
+  .info{padding-top:0.2rem;}
 }
 
-.footer-copy{
-  font-size:0.7rem;
-  color:#30363d;
+@media(max-width:900px){
+  .page{padding:1rem;}
+  .avatar-hex{width:140px;height:140px}
+  .avatar-hex img{width:134px;height:134px}
+  .name{font-size:1.6rem}
+  .bio{font-size:0.84rem}
+  .lcard{padding:0.7rem}
+  .ltxt .ln{font-size:0.95rem}
+  .ltxt .ld{font-size:0.74rem}
+  .links{gap:0.6rem}
 }
 
-.footer-copy span{color:var(--green);}
-
-/* ── TERMINAL MODAL ── */
-.term-fab{
-  position:fixed;
-  bottom:2rem;right:2rem;
-  z-index:900;
-  width:50px;height:50px;
-  background:rgba(0,255,65,0.1);
-  border:1px solid var(--green);
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;
-  color:var(--green);
-  font-size:1.1rem;
-  box-shadow:var(--glow);
-  transition:background 0.2s,transform 0.2s;
-  backdrop-filter:blur(10px);
-}
-
-.term-fab:hover{background:rgba(0,255,65,0.18);transform:scale(1.08);}
-
-.modal-overlay{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,0.75);
-  backdrop-filter:blur(4px);
-  z-index:1100;
-  display:none;
-  align-items:center;
-  justify-content:center;
-}
-
-.modal-overlay.open{display:flex;}
-
-.terminal-modal{
-  width:min(580px,90vw);
-  background:#0d1117;
-  border:1px solid rgba(0,255,65,0.3);
-  box-shadow:0 0 60px rgba(0,255,65,0.15);
-  border-radius:6px;
-  overflow:hidden;
-}
-
-.term-bar{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  padding:0.7rem 1rem;
-  background:#161b22;
-  border-bottom:1px solid rgba(255,255,255,0.06);
-}
-
-.term-dot{
-  width:11px;height:11px;
-  border-radius:50%;
-  cursor:pointer;
-}
-
-.td-red{background:#ff5f56;}
-.td-yellow{background:#ffbd2e;}
-.td-green{background:#27c93f;}
-
-.term-title{
-  flex:1;
-  text-align:center;
-  font-size:0.72rem;
-  color:#8b949e;
-  letter-spacing:0.12em;
-}
-
-.term-body{
-  padding:1.5rem;
-  font-size:0.82rem;
-  line-height:2;
-  min-height:200px;
-}
-
-.term-line{color:#c9d1d9;}
-.term-prompt{color:var(--green);}
-.term-output{color:var(--cyan);margin-left:1.5rem;}
-.term-input-row{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  margin-top:0.5rem;
-}
-
-.term-input{
-  background:transparent;
-  border:none;
-  outline:none;
-  font-family:var(--mono);
-  font-size:0.82rem;
-  color:#e6edf3;
-  flex:1;
-  caret-color:var(--green);
-}
-
-/* ── RESPONSIVE ── */
-@media(max-width:768px){
-  nav{padding:0.8rem 1.2rem;}
-  .nav-links{display:none;}
-  .nav-links.open{
-    display:flex;
-    flex-direction:column;
-    position:absolute;
-    top:100%;left:0;right:0;
-    background:rgba(10,12,15,0.97);
-    border-bottom:1px solid var(--border);
-    padding:1.2rem 1.5rem;
-    gap:1.2rem;
-  }
-  .hamburger{display:flex;}
-
-  #hero{padding-top:80px;padding-left:1.5rem;padding-right:1.5rem;}
-  .hero-inner{grid-template-columns:1fr;gap:2.5rem;}
-  .hero-image-wrap{order:-1;display:flex;justify-content:center;}
-  .hero-hex{width:180px;height:210px;}
-  .hex-img-placeholder{width:130px;height:130px;font-size:2.5rem;}
-
-  section{padding:4rem 1.5rem;}
-
-  .about-grid{grid-template-columns:1fr;}
-  .stats-grid{grid-template-columns:repeat(3,1fr);}
-  .platforms-grid{grid-template-columns:1fr;}
-  .contact-grid{grid-template-columns:1fr;gap:2rem;}
-  .social-grid{grid-template-columns:1fr;}
-  .section-title{font-size:1.6rem;}
+@media(max-width:520px){
+  .top{flex-direction:row;gap:0.9rem}
+  .page{padding:0.8rem}
+  .avatar-hex{width:110px;height:110px}
+  .avatar-hex img{width:104px;height:104px}
+  .name{font-size:1.3rem}
+  .role{font-size:0.7rem}
+  .links{grid-template-columns:1fr;}
 }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════ NAV ═══════════════════════════════════════ -->
-<nav>
-  <div class="nav-logo">sahan<span>@</span>cyberlab<span>:~$</span></div>
-  <ul class="nav-links" id="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#arsenal">Arsenal</a></li>
-    <li><a href="#platforms">Platforms</a></li>
-    <li><a href="#writeups">Writeups</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <div class="status-badge">
-    <div class="status-dot"></div>
-    [ACTIVE] Hunting flags
+<button class="theme-btn" id="themeBtn"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
+
+<div class="page">
+
+  <!-- TOP ROW: hex photo + info -->
+  <div class="top">
+    <div class="avatar-hex">
+      <img src="my.jpg" alt="Kavindu Sahan"
+        onerror="this.style.display='none';document.getElementById('avFb').style.display='flex';"/>
+      <div class="av-fb" id="avFb" style="display:none;">
+        <span>KS</span><small>SAHAN</small>
+      </div>
+    </div>
+    <div class="info">
+      <div class="status-pill"><div class="sdot"></div>[ACTIVE] Hunting Flags</div>
+      <div class="name">Kavindu Sahan</div>
+      <div class="role">Cybersecurity &nbsp;·&nbsp; Pen Tester</div>
+        <p class="bio">CS Undergraduate @ Eastern University, Trincomalee · Breaking systems &amp; capturing flags.</p>
+        <a href="https://wa.me/94760843065" target="_blank" rel="noopener" class="cta">
+          <i class="fa-brands fa-whatsapp" style="font-size:0.98rem;"></i>
+          <span>Connect on WhatsApp</span>
+          <i class="fa-solid fa-arrow-right" style="font-size:.7rem;"></i>
+        </a>
+      </div>
   </div>
-  <div class="hamburger" id="hamburger" onclick="document.getElementById('nav-links').classList.toggle('open')">
-    <span></span><span></span><span></span>
-  </div>
-</nav>
 
-<!-- ═══════════════════════════════════════ HERO ══════════════════════════════════════ -->
-<section id="hero">
-  <div class="hero-inner">
-    <div class="hero-content">
-      <div class="hero-tag">// IDENTITY CONFIRMED</div>
-      <h1 class="hero-name">CHANDRAPALA H.K.S.</h1>
-      <div class="hero-alias">(SAHAN)</div>
-      <p class="hero-sub">CS Undergraduate · Eastern University, Trincomalee</p>
-      <p class="hero-desc">Pursuing the path of Cybersecurity — one lab at a time.<br/>Breaking systems to understand them. Writing every step of the way.</p>
-      <div class="hero-cta">
-        <a href="#writeups" class="btn btn-primary"><i class="fa-solid fa-terminal"></i> View Writeups</a>
-        <a href="#contact" class="btn btn-secondary"><i class="fa-solid fa-satellite-dish"></i> Contact Me</a>
-      </div>
-    </div>
-    <div class="hero-image-wrap">
-      <div class="hero-hex">
-        <svg class="hex-svg-bg" width="260" height="300" viewBox="0 0 260 300">
-          <polygon points="130,6 254,70 254,230 130,294 6,230 6,70"
-            fill="none" stroke="rgba(0,255,65,0.3)" stroke-width="1"/>
-          <polygon points="130,22 238,80 238,220 130,278 22,220 22,80"
-            fill="rgba(0,255,65,0.03)" stroke="rgba(0,255,65,0.12)" stroke-width="0.5"/>
-          <polygon points="130,38 222,90 222,210 130,262 38,210 38,90"
-            fill="none" stroke="rgba(0,184,255,0.08)" stroke-width="0.5"/>
-          <line x1="130" y1="6" x2="130" y2="22" stroke="#00ff41" stroke-width="2"/>
-          <line x1="254" y1="70" x2="241" y2="77" stroke="#00ff41" stroke-width="2"/>
-          <line x1="254" y1="230" x2="241" y2="223" stroke="#00ff41" stroke-width="2"/>
-          <line x1="130" y1="294" x2="130" y2="278" stroke="#00ff41" stroke-width="2"/>
-          <line x1="6" y1="230" x2="19" y2="223" stroke="#00ff41" stroke-width="2"/>
-          <line x1="6" y1="70" x2="19" y2="77" stroke="#00ff41" stroke-width="2"/>
-        </svg>
-        <div class="hero-hex-inner">
-          <!--
-            IMAGE_PLACEHOLDER — replace the div below with:
-            <img src="hero-image.png" class="hex-img" alt="SAHAN">
+  <!-- WHATSAPP CTA moved into .info -->
 
-            GENERATE THIS IMAGE WITH:
-            "A stylized hooded figure sitting in front of a glowing terminal,
-            neon green and cyan colors, dark background, the word SAHAN written
-            in glowing binary code or matrix style, digital art, cybersecurity
-            theme, hoodie, focused pose, 4K, sharp details --ar 1:1"
-          -->
-          <div class="hex-img-placeholder">S</div>
-          <div class="hex-label">SEC&nbsp;&nbsp;OPS</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+  <!-- DIVIDER -->
+  <div class="divider">Links</div>
 
-<!-- ═══════════════════════════════════════ ABOUT ════════════════════════════════════ -->
-<section id="about">
-  <div class="section-heading">// ABOUT</div>
-  <div class="section-title">Who Am I</div>
-  <div class="about-grid reveal">
-    <div class="about-text">
-      <p>
-        I'm a <strong>computer science undergraduate</strong> at Eastern University's Trincomalee Campus,
-        walking the cybersecurity path to build a professional career in <strong>offensive security</strong>.
-      </p>
-      <p>
-        I sharpen my skills daily on <strong>TryHackMe</strong> and <strong>HackTheBox</strong> —
-        every flag captured becomes a writeup published here as a blog. My goal is to earn
-        professional certifications (OSCP, CEH) and contribute to the security community.
-      </p>
-      <p>
-        Currently focused on: network enumeration, web application testing, privilege escalation,
-        and reverse engineering. Every machine is a new lesson.
-      </p>
-    </div>
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-num">15+</div>
-        <div class="stat-label">CTFs Solved</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">12</div>
-        <div class="stat-label">Writeups Published</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">300+</div>
-        <div class="stat-label">Active Hours</div>
-      </div>
-    </div>
-  </div>
-</section>
+  <!-- LINKS 2-col grid -->
+  <div class="links">
 
-<!-- ═══════════════════════════════════════ ARSENAL ══════════════════════════════════ -->
-<section id="arsenal">
-  <div class="section-heading">// ARSENAL</div>
-  <div class="section-title">My Toolkit</div>
-  <div class="arsenal-grid">
-
-    <div class="tool-card reveal" data-skill="82">
-      <div class="tool-icon-wrap"><i class="fa-solid fa-fish"></i></div>
-      <div class="tool-name">Wireshark</div>
-      <div class="tool-desc">Packet analysis &amp; network forensics. Deep inspection of live traffic and capture files.</div>
-      <div class="skill-bar-wrap">
-        <div class="skill-bar-bg"><div class="skill-bar-fill"></div></div>
-        <div class="skill-pct">82%</div>
-      </div>
-    </div>
-
-    <div class="tool-card reveal" data-skill="88">
-      <div class="tool-icon-wrap"><i class="fa-solid fa-map-location-dot"></i></div>
-      <div class="tool-name">Nmap</div>
-      <div class="tool-desc">Network scanning &amp; enumeration. Host discovery, port scanning, service detection.</div>
-      <div class="skill-bar-wrap">
-        <div class="skill-bar-bg"><div class="skill-bar-fill"></div></div>
-        <div class="skill-pct">88%</div>
-      </div>
-    </div>
-
-    <div class="tool-card reveal" data-skill="75">
-      <div class="tool-icon-wrap"><i class="fa-solid fa-crosshairs"></i></div>
-      <div class="tool-name">Metasploit</div>
-      <div class="tool-desc">Exploitation framework for developing and running exploit code against remote targets.</div>
-      <div class="skill-bar-wrap">
-        <div class="skill-bar-bg"><div class="skill-bar-fill"></div></div>
-        <div class="skill-pct">75%</div>
-      </div>
-    </div>
-
-    <div class="tool-card reveal" data-skill="78">
-      <div class="tool-icon-wrap"><i class="fa-solid fa-spider"></i></div>
-      <div class="tool-name">Burp Suite</div>
-      <div class="tool-desc">Web application security testing platform. Intercept, modify, and replay HTTP requests.</div>
-      <div class="skill-bar-wrap">
-        <div class="skill-bar-bg"><div class="skill-bar-fill"></div></div>
-        <div class="skill-pct">78%</div>
-      </div>
-    </div>
-
-    <div class="tool-card reveal" data-skill="70">
-      <div class="tool-icon-wrap"><i class="fa-solid fa-key"></i></div>
-      <div class="tool-name">John the Ripper</div>
-      <div class="tool-desc">Password cracking tool for offline hash analysis and wordlist-based attacks.</div>
-      <div class="skill-bar-wrap">
-        <div class="skill-bar-bg"><div class="skill-bar-fill"></div></div>
-        <div class="skill-pct">70%</div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════ PLATFORMS ════════════════════════════════ -->
-<section id="platforms">
-  <div class="section-heading">// ACTIVE TRAINING PLATFORMS</div>
-  <div class="section-title">Where I Train</div>
-  <div class="platforms-grid">
-
-    <div class="platform-card reveal">
-      <div class="platform-header">
-        <div class="platform-name">TryHackMe</div>
-        <div class="platform-icon"><i class="fa-solid fa-flag"></i></div>
-      </div>
-      <div class="platform-tags">
-        <span class="tag">Learning Paths</span>
-        <span class="tag">CTF Rooms</span>
-        <span class="tag">Guided Labs</span>
-      </div>
-      <div class="activity-badge">Last active: 2 days ago</div>
-      <a href="https://tryhackme.com/p/kavindusahan821" target="_blank" rel="noopener" class="platform-link">
-        View Profile <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.65rem;"></i>
-      </a>
-    </div>
-
-    <div class="platform-card reveal">
-      <div class="platform-header">
-        <div class="platform-name">HackTheBox</div>
-        <div class="platform-icon"><i class="fa-solid fa-cube"></i></div>
-      </div>
-      <div class="platform-tags">
-        <span class="tag">Machine Writeups</span>
-        <span class="tag">Labs</span>
-        <span class="tag">Pro Labs</span>
-      </div>
-      <div class="activity-badge">Last active: 5 days ago</div>
-      <a href="https://profile.hackthebox.com/" target="_blank" rel="noopener" class="platform-link">
-        View Profile <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.65rem;"></i>
-      </a>
-    </div>
-
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════ WRITEUPS ═════════════════════════════════ -->
-<section id="writeups">
-  <div class="section-heading">// LATEST WRITEUPS</div>
-  <div class="section-title">Lab Notes &amp; CTF Walkthroughs</div>
-  <div class="writeups-grid">
-
-    <div class="writeup-card reveal">
-      <div class="writeup-category"><i class="fa-solid fa-cube"></i> HackTheBox · Windows</div>
-      <div class="writeup-title">HTB: Blue — Walkthrough</div>
-      <div class="writeup-date"><i class="fa-regular fa-calendar"></i> Dec 12, 2024</div>
-      <div class="writeup-desc">Exploiting the infamous EternalBlue (MS17-010) vulnerability on a Windows 7 target. Full walkthrough from enumeration to root shell via Metasploit and manual exploitation.</div>
-      <a href="#" class="writeup-link">Read full writeup <i class="fa-solid fa-arrow-right"></i></a>
-    </div>
-
-    <div class="writeup-card reveal">
-      <div class="writeup-category"><i class="fa-solid fa-flag"></i> TryHackMe · Linux</div>
-      <div class="writeup-title">THM: RootMe — Privilege Escalation</div>
-      <div class="writeup-date"><i class="fa-regular fa-calendar"></i> Nov 28, 2024</div>
-      <div class="writeup-desc">A beginner-friendly room focusing on file upload vulnerabilities and SUID binary exploitation. Gaining a reverse shell and escalating to root through a misconfigured Python binary.</div>
-      <a href="#" class="writeup-link">Read full writeup <i class="fa-solid fa-arrow-right"></i></a>
-    </div>
-
-    <div class="writeup-card reveal">
-      <div class="writeup-category"><i class="fa-solid fa-cube"></i> HackTheBox · Linux</div>
-      <div class="writeup-title">HTB: Lame — Legacy Exploitation</div>
-      <div class="writeup-date"><i class="fa-regular fa-calendar"></i> Nov 10, 2024</div>
-      <div class="writeup-desc">One of the first HTB machines — exploiting a vulnerable Samba service (CVE-2007-2447) for direct root access. Covers manual exploitation without Metasploit.</div>
-      <a href="#" class="writeup-link">Read full writeup <i class="fa-solid fa-arrow-right"></i></a>
-    </div>
-
-  </div>
-  <div class="writeups-footer reveal">
-    <p class="writeups-note">Every writeup published on my Quartz site</p>
-    <a href="#" target="_blank" class="btn btn-primary">
-      <i class="fa-solid fa-book-open"></i> Browse All Writeups
+    <a href="index.html" class="lcard">
+      <div class="licon"><i class="fa-solid fa-user-astronaut"></i></div>
+      <div class="ltxt"><div class="ln">About Me</div><div class="ld">Portfolio</div></div>
+      <i class="fa-solid fa-arrow-right larr"></i>
     </a>
-  </div>
-</section>
 
-<!-- ═══════════════════════════════════════ CONTACT ══════════════════════════════════ -->
-<section id="contact">
-  <div class="section-heading">// CONNECT</div>
-  <div class="section-title">Reach Out</div>
-  <div class="contact-grid reveal">
+    <a href="mailto:kavindusahan821@gmail.com" class="lcard c">
+      <div class="licon"><i class="fa-solid fa-envelope"></i></div>
+      <div class="ltxt"><div class="ln">Email</div><div class="ld">Gmail</div></div>
+      <i class="fa-solid fa-arrow-right larr"></i>
+    </a>
 
-    <div>
-      <div class="contact-heading"><i class="fa-solid fa-satellite-dish"></i> Direct Contact</div>
-      <a href="mailto:kavindusahan821@gmail.com" class="contact-item">
-        <div class="contact-item-icon"><i class="fa-solid fa-envelope"></i></div>
-        <div class="contact-item-info">
-          <div class="contact-item-label">Email</div>
-          <div class="contact-item-value">kavindusahan821@gmail.com</div>
-        </div>
-      </a>
-      <a href="tel:+94760843065" class="contact-item">
-        <div class="contact-item-icon"><i class="fa-solid fa-phone"></i></div>
-        <div class="contact-item-info">
-          <div class="contact-item-label">Phone</div>
-          <div class="contact-item-value">+94 760 843 065</div>
-        </div>
-      </a>
-    </div>
+    <a href="certificates.html" target="_blank" rel="noopener" class="lcard">
+      <div class="licon"><i class="fa-solid fa-certificate"></i></div>
+      <div class="ltxt"><div class="ln">Certificates</div><div class="ld">View all</div></div>
+      <i class="fa-solid fa-arrow-right larr"></i>
+    </a>
 
-    <div>
-      <div class="contact-heading"><i class="fa-solid fa-network-wired"></i> Social &amp; Profiles</div>
-      <div class="social-grid">
-        <a href="https://www.linkedin.com/in/sahan-chandrapala-62624a38a/" target="_blank" rel="noopener" class="social-btn" title="LinkedIn">
-          <i class="fa-brands fa-linkedin"></i> LinkedIn
-          <i class="fa-solid fa-up-right-from-square ext-icon"></i>
-        </a>
-        <a href="https://github.com/Sahan7768" target="_blank" rel="noopener" class="social-btn" title="GitHub">
-          <i class="fa-brands fa-github"></i> GitHub
-          <i class="fa-solid fa-up-right-from-square ext-icon"></i>
-        </a>
-        <a href="https://tryhackme.com/p/kavindusahan821" target="_blank" rel="noopener" class="social-btn" title="TryHackMe">
-          <i class="fa-solid fa-flag"></i> TryHackMe
-          <i class="fa-solid fa-up-right-from-square ext-icon"></i>
-        </a>
-        <a href="https://profile.hackthebox.com/" target="_blank" rel="noopener" class="social-btn" title="HackTheBox">
-          <i class="fa-solid fa-cube"></i> HackTheBox
-          <i class="fa-solid fa-up-right-from-square ext-icon"></i>
-        </a>
-        <a href="https://isc2.obrizum.io/org/cc/certificate" target="_blank" rel="noopener" class="social-btn" title="ISC2 Certificate" style="grid-column:span 2;">
-          <i class="fa-solid fa-certificate"></i> ISC2 Certificate
-          <i class="fa-solid fa-up-right-from-square ext-icon"></i>
-        </a>
-      </div>
-    </div>
+    <a href="https://github.com/Sahan7768" target="_blank" rel="noopener" class="lcard c">
+      <div class="licon"><i class="fa-brands fa-github"></i></div>
+      <div class="ltxt"><div class="ln">GitHub</div><div class="ld">Sahan7768</div></div>
+      <i class="fa-solid fa-arrow-right larr"></i>
+    </a>
+
+    <a href="https://www.linkedin.com/in/sahan-chandrapala-62624a38a/" target="_blank" rel="noopener" class="lcard">
+      <div class="licon"><i class="fa-brands fa-linkedin-in"></i></div>
+      <div class="ltxt"><div class="ln">LinkedIn</div><div class="ld">Profile</div></div>
+      <i class="fa-solid fa-arrow-right larr"></i>
+    </a>
+
+    <a href="#" target="_blank" rel="noopener" class="lcard c">
+      <div class="licon"><i class="fa-solid fa-blog"></i></div>
+      <div class="ltxt"><div class="ln">Blog</div><div class="ld">Writeups</div></div>
+      <i class="fa-solid fa-arrow-right larr"></i>
+    </a>
+
+    <a href="https://tryhackme.com/p/kavindusahan821" target="_blank" rel="noopener" class="lcard">
+      <div class="licon"><i class="fa-solid fa-flag"></i></div>
+      <div class="ltxt"><div class="ln">TryHackMe</div><div class="ld">kavindusahan821</div></div>
+      <i class="fa-solid fa-arrow-right larr"></i>
+    </a>
+
+    <a href="https://profile.hackthebox.com/" target="_blank" rel="noopener" class="lcard c">
+      <div class="licon"><i class="fa-solid fa-cube"></i></div>
+      <div class="ltxt"><div class="ln">HackTheBox</div><div class="ld">Labs &amp; Machines</div></div>
+      <i class="fa-solid fa-arrow-right larr"></i>
+    </a>
 
   </div>
-</section>
 
-<!-- ═══════════════════════════════════════ FOOTER ═══════════════════════════════════ -->
-<footer>
-  <div class="footer-brand">SAHAN — EASTERN UNIVERSITY, TRINCOMALEE — CYBERSECURITY [UNDERGRADUATE]</div>
-  <div class="footer-copy">© 2025 Chandrapala H.K.S. | Built with <span>terminal vibes</span></div>
-</footer>
+  <!-- FOOTER -->
+  <div class="foot">
+    ⚙️ Red team · Offensive security · CTF &nbsp;|&nbsp; Eastern University, Sri Lanka<br/>
+    © 2025 Chandrapala H.K.S.
+  </div>
 
-<!-- ═══════════════════════════════════════ TERMINAL FAB + MODAL ══════════════════════ -->
-<div class="term-fab" onclick="document.querySelector('.modal-overlay').classList.add('open')" title="Open Terminal">
-  <i class="fa-solid fa-terminal"></i>
 </div>
 
-<div class="modal-overlay" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="terminal-modal">
-    <div class="term-bar">
-      <div class="term-dot td-red" onclick="document.querySelector('.modal-overlay').classList.remove('open')"></div>
-      <div class="term-dot td-yellow"></div>
-      <div class="term-dot td-green"></div>
-      <div class="term-title">sahan@portfolio — bash — 80×24</div>
-    </div>
-    <div class="term-body" id="term-body">
-      <div class="term-line"><span class="term-prompt">sahan@portfolio</span>:<span style="color:var(--cyan)">~</span>$ </div>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════════════════════════ JAVASCRIPT ═══════════════════════════════ -->
 <script>
-/* ── SCROLL REVEAL ── */
-const reveals=document.querySelectorAll('.reveal');
-const obs=new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.classList.add('visible');
-      /* animate skill bars */
-      const fill=e.target.querySelector('.skill-bar-fill');
-      if(fill){
-        const pct=e.target.dataset.skill||'0';
-        fill.style.width=pct+'%';
-      }
-    }
+(function(){
+  const btn=document.getElementById('themeBtn');
+  const icon=document.getElementById('themeIcon');
+  const body=document.body;
+  if(localStorage.getItem('sahan-theme')==='light'){
+    body.classList.add('light');icon.className='fa-solid fa-sun';
+  }
+  btn.addEventListener('click',()=>{
+    body.classList.toggle('light');
+    const l=body.classList.contains('light');
+    icon.className=l?'fa-solid fa-sun':'fa-solid fa-moon';
+    localStorage.setItem('sahan-theme',l?'light':'dark');
   });
-},{threshold:0.12});
-reveals.forEach(r=>obs.observe(r));
-
-/* ── TERMINAL ── */
-const cmds={
-  whoami:'SAHAN — Offensive Security Student | CS Undergraduate, Eastern University',
-  ls:'about.txt  arsenal/  writeups/  contact.md  README.md',
-  pwd:'/home/sahan/portfolio',
-  uname:'-r: Linux 6.1.0-kali-amd64',
-  help:'Available commands: whoami, ls, pwd, uname, skills, platforms, clear, exit',
-  skills:'[Wireshark 82%] [Nmap 88%] [Metasploit 75%] [Burp Suite 78%] [JtR 70%]',
-  platforms:'Active on: TryHackMe | HackTheBox | ISC2 CC Certified',
-  clear:'__CLEAR__',
-  exit:'__EXIT__'
-};
-
-const body=document.getElementById('term-body');
-
-function appendLine(html){
-  const d=document.createElement('div');
-  d.className='term-line';
-  d.innerHTML=html;
-  body.appendChild(d);
-  body.scrollTop=body.scrollHeight;
-}
-
-function showPrompt(){
-  const row=document.createElement('div');
-  row.className='term-input-row';
-  row.innerHTML=`<span class="term-prompt">sahan@portfolio</span>:<span style="color:var(--cyan)">~</span>$&nbsp;<input class="term-input" id="term-input" autocomplete="off" spellcheck="false" autofocus/>`;
-  body.appendChild(row);
-  body.scrollTop=body.scrollHeight;
-  const inp=document.getElementById('term-input');
-  inp.focus();
-  inp.addEventListener('keydown',function(e){
-    if(e.key==='Enter'){
-      const val=this.value.trim().toLowerCase();
-      row.innerHTML=`<span class="term-prompt">sahan@portfolio</span>:<span style="color:var(--cyan)">~</span>$ <span style="color:#e6edf3">${this.value}</span>`;
-      if(cmds[val]==='__CLEAR__'){
-        body.innerHTML='';
-      } else if(cmds[val]==='__EXIT__'){
-        document.querySelector('.modal-overlay').classList.remove('open');
-        return;
-      } else if(cmds[val]){
-        appendLine(`<span class="term-output">${cmds[val]}</span>`);
-      } else if(val){
-        appendLine(`<span style="color:var(--red)">bash: ${this.value}: command not found. Try 'help'.</span>`);
-      }
-      showPrompt();
-    }
-  });
-}
-
-document.querySelector('.modal-overlay').addEventListener('click',function(e){
-  const inp=document.getElementById('term-input');
-  if(inp)inp.focus();
-});
-
-/* init terminal */
-(function initTerm(){
-  appendLine('<span style="color:var(--green)">Sahan\'s Portfolio Terminal v1.0</span>');
-  appendLine('<span style="color:#8b949e">Type \'help\' for available commands.</span>');
-  appendLine('');
-  showPrompt();
 })();
-
-/* ── MOBILE NAV CLOSE ON LINK CLICK ── */
-document.querySelectorAll('.nav-links a').forEach(a=>{
-  a.addEventListener('click',()=>{
-    document.getElementById('nav-links').classList.remove('open');
-  });
-});
 </script>
 </body>
 </html>
