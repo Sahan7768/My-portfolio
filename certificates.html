@@ -81,7 +81,7 @@ body::before{
 /* ── WRAP ── */
 .wrap{
   position:relative;z-index:1;
-  max-width:960px;margin:0 auto;
+  max-width:1120px;margin:0 auto;
   padding:5rem 2rem 4rem;
 }
 
@@ -93,19 +93,76 @@ body::before{
   margin-bottom:.5rem;
 }
 .page-title{
-  font-size:2.2rem;font-weight:700;letter-spacing:-.02em;
+  font-size:2.35rem;font-weight:700;letter-spacing:-.03em;
   color:var(--text);margin-bottom:.4rem;
 }
-.page-sub{font-size:.85rem;color:var(--muted2);line-height:1.7;}
+.page-sub{font-size:.9rem;color:var(--muted2);line-height:1.7;max-width:52rem;}
 .accent-line{
   width:60px;height:3px;margin-top:.8rem;border-radius:2px;
   background:linear-gradient(90deg,var(--accent),var(--cyan));
 }
 
+/* ── PLATFORM GROUPS ── */
+.platform-group{
+  margin-top:1.8rem;
+}
+.platform-head{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  margin-bottom:.9rem;padding-bottom:.7rem;
+  border-bottom:1px solid var(--border);
+}
+.platform-actions{
+  display:flex;align-items:center;gap:.8rem;flex-wrap:wrap;
+}
+.platform-title{
+  display:flex;align-items:center;gap:.65rem;flex-wrap:wrap;
+  font-size:1rem;font-weight:700;letter-spacing:-.02em;
+}
+.platform-title i{color:var(--accent);}
+.platform-title a{
+  color:var(--text);
+  text-decoration:none;
+  transition:color .2s;
+}
+.platform-title a:hover{color:var(--accent);}
+.platform-meta{
+  font-family:'Space Mono',monospace;font-size:.62rem;
+  color:var(--muted);letter-spacing:.14em;text-transform:uppercase;
+}
+.platform-toggle{
+  border:1px solid var(--border);
+  background:var(--surface2);
+  color:var(--text);
+  border-radius:999px;
+  padding:.42rem .8rem;
+  font-family:'Space Mono',monospace;
+  font-size:.62rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:all .2s;
+}
+.platform-toggle:hover{border-color:var(--accent);color:var(--accent);}
+.platform-toggle[aria-expanded="true"]{border-color:var(--accent);color:var(--accent);}
+.platform-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(245px,1fr));
+  gap:1.4rem;
+}
+.platform-more{
+  display:none;
+  margin-top:1.4rem;
+}
+.platform-panel.open .platform-more{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(245px,1fr));
+  gap:1.4rem;
+}
+
 /* ── GRID ── */
 .cert-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+  grid-template-columns:repeat(auto-fill,minmax(245px,1fr));
   gap:1.4rem;
 }
 
@@ -134,17 +191,30 @@ body::before{
 
 /* image area */
 .cert-img-wrap{
-  width:100%;height:170px;
-  background:linear-gradient(135deg,rgba(17,24,39,0.9),rgba(11,18,32,0.95));
+  width:100%;height:clamp(160px,25vw,260px);padding:.75rem;
+  background:linear-gradient(135deg,rgba(17,24,39,0.95),rgba(11,18,32,0.98));
   display:flex;align-items:center;justify-content:center;
   overflow:hidden;border-bottom:1px solid var(--border);
   position:relative;
 }
+.cert-img-wrap{
+  text-decoration:none;
+  color:inherit;
+  cursor:pointer;
+}
+.cert-img-wrap:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+}
 .cert-img-wrap img{
-  width:100%;height:100%;object-fit:cover;
+  width:100%;height:100%;object-fit:contain;
+  max-width:100%;max-height:100%;
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(241,113,56,0.08);
+  border-radius:12px;
   transition:transform .35s;
 }
-.cert-card:hover .cert-img-wrap img{transform:scale(1.05);}
+.cert-card:hover .cert-img-wrap img{transform:scale(1.02);}
 .cert-placeholder{
   display:flex;flex-direction:column;align-items:center;gap:.6rem;
   color:var(--muted);
@@ -181,6 +251,15 @@ body::before{
 }
 .cert-desc{font-size:.75rem;color:var(--muted2);line-height:1.65;margin-bottom:1rem;flex:1;}
 
+.cert-meta-link{
+  display:block;
+  text-decoration:none;
+  color:inherit;
+  margin-bottom:.2rem;
+}
+.cert-meta-link:hover .cert-name{color:var(--accent2);}
+.cert-meta-link:hover .cert-desc{color:var(--text);}
+
 .cert-link{
   display:inline-flex;align-items:center;gap:6px;
   font-size:.72rem;font-family:'Space Mono',monospace;
@@ -215,132 +294,291 @@ body::before{
 }
 
 /* ── RESPONSIVE ── */
+@media (max-width:1024px){
+  .wrap{max-width:960px;padding:4.5rem 1.6rem 3rem;}
+  .platform-grid,.cert-grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));}
+  .cert-img-wrap{height:clamp(150px,22vw,220px);}
+}
+@media (max-width:900px){
+  .wrap{padding:4rem 1.2rem 2.6rem;}
+  .platform-grid,.cert-grid{grid-template-columns:repeat(2,1fr);gap:1rem;}
+  .page-title{font-size:1.9rem;}
+  .cert-img-wrap{height:180px;padding:.5rem;}
+  .cert-body{padding:0.9rem 1rem 1rem;}
+}
 @media(max-width:600px){
-  .wrap{padding:4.5rem 1rem 3rem;}
-  .page-title{font-size:1.7rem;}
+  .wrap{padding:3.5rem 0.9rem 2rem;}
+  .page-title{font-size:1.6rem;}
   .cert-grid{grid-template-columns:1fr;}
+  .platform-grid{grid-template-columns:1fr;}
+  .cert-img-wrap{height:160px;padding:.5rem;}
+  .cert-card{border-radius:12px;}
+  .platform-head{flex-direction:column;align-items:flex-start;gap:.6rem;}
+  .platform-actions{width:100%;}
+  .platform-meta{order:2;color:var(--muted);}
+  .platform-toggle{width:100%;text-align:center;padding:.6rem .8rem;}
 }
 </style>
 </head>
 <body>
 
-<a href="linktree.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
+<a href="linktree (2).html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back</a>
 <button class="theme-btn" id="themeBtn"><i class="fa-solid fa-moon" id="themeIcon"></i></button>
 
 <div class="wrap">
 
   <!-- HEADER -->
   <div class="page-header">
-    <div class="page-tag">// CREDENTIALS</div>
-    <h1 class="page-title">My Certificates</h1>
-    <p class="page-sub">Verified certifications &amp; achievements in cybersecurity and computer science.</p>
+    <div class="page-tag">// CERTIFICATE GALLERY</div>
+    <h1 class="page-title">Certificates &amp; Learning Milestones</h1>
+    <p class="page-sub">Local certificate scans from SoloLearn and Udemy, organized as a clean gallery so the actual awards stand out first and the metadata stays easy to scan.</p>
     <div class="accent-line"></div>
   </div>
 
   <!-- STATS -->
   <div class="stats-bar">
     <div class="stat-item">
-      <div class="stat-num">3</div>
-      <div class="stat-label">Certificates<br/>Earned</div>
+      <div class="stat-num">13</div>
+      <div class="stat-label">Local Files<br/>Displayed</div>
     </div>
     <div class="stat-sep"></div>
     <div class="stat-item">
-      <div class="stat-num">2</div>
-      <div class="stat-label">Security<br/>Focused</div>
+      <div class="stat-num">4</div>
+      <div class="stat-label">Learning<br/>Platforms</div>
     </div>
     <div class="stat-sep"></div>
     <div class="stat-item">
-      <div class="stat-num">2025</div>
-      <div class="stat-label">Latest<br/>Year</div>
+      <div class="stat-num">2024-25</div>
+      <div class="stat-label">Coverage<br/>Span</div>
     </div>
   </div>
 
-  <!-- GRID -->
-  <div class="cert-grid">
-
-    <!-- CERT 1: ISC2 CC -->
-    <div class="cert-card">
-      <div class="cert-img-wrap">
-        <!--
-          Replace with:
-          <img src="cert-isc2.jpg" alt="ISC2 CC Certificate"/>
-          Image file: cert-isc2.jpg — screenshot or scan of your ISC2 certificate
-        -->
-        <div class="cert-placeholder">
-          <i class="fa-solid fa-shield-halved"></i>
-          <span>cert-isc2.jpg</span>
-        </div>
-        <div class="cert-badge verified">Verified</div>
+  <!-- PLATFORM GROUPS -->
+  <div class="platform-group platform-panel" data-platform="sololearn">
+    <div class="platform-head">
+      <div class="platform-actions">
+        <div class="platform-title"><i class="fa-solid fa-code"></i><a href="https://www.sololearn.com/en/profile/33246033" target="_blank" rel="noopener">SoloLearn</a></div>
+        <div class="platform-meta">4 certificates</div>
       </div>
-      <div class="cert-body">
-        <div class="cert-issuer"><i class="fa-solid fa-building-shield"></i> &nbsp;ISC2</div>
-        <div class="cert-name">Certified in Cybersecurity (CC)</div>
-        <div class="cert-date"><i class="fa-regular fa-calendar"></i> &nbsp;2025</div>
-        <div class="cert-desc">Foundational cybersecurity certification covering security principles, business continuity, access controls, network security, and security operations.</div>
-        <a href="https://isc2.obrizum.io/org/cc/certificate" target="_blank" rel="noopener" class="cert-link cyan">
-          <i class="fa-solid fa-up-right-from-square"></i> View Certificate
+      <button class="platform-toggle" type="button" data-toggle-platform="sololearn" aria-expanded="false" hidden>See More</button>
+    </div>
+    <div class="platform-grid">
+      <div class="cert-card">
+        <a class="cert-img-wrap" href="certificates/solo%20learn/solo_introduction_to_python.jpg" target="_blank" rel="noopener" aria-label="Open Introduction to Python certificate image">
+          <img src="certificates/solo%20learn/solo_introduction_to_python.jpg" alt="SoloLearn Introduction to Python certificate" loading="lazy" decoding="async"/>
+          <div class="cert-badge verified">SoloLearn</div>
         </a>
+        <div class="cert-body">
+          <div class="cert-issuer"><i class="fa-solid fa-code"></i> &nbsp;SoloLearn</div>
+          <a class="cert-meta-link" href="https://www.sololearn.com/en/profile/33246033" target="_blank" rel="noopener">
+            <div class="cert-name">Introduction to Python</div>
+            <div class="cert-desc">Introductory programming certificate focused on Python fundamentals, syntax, and problem solving.</div>
+          </a>
+        </div>
+      </div>
+      <div class="cert-card">
+        <a class="cert-img-wrap" href="certificates/solo%20learn/solo_introduction_TO_HTML.png" target="_blank" rel="noopener" aria-label="Open Introduction to HTML certificate image">
+          <img src="certificates/solo%20learn/solo_introduction_TO_HTML.png" alt="SoloLearn Introduction to HTML certificate" loading="lazy" decoding="async"/>
+          <div class="cert-badge">SoloLearn</div>
+        </a>
+        <div class="cert-body">
+          <div class="cert-issuer"><i class="fa-solid fa-code"></i> &nbsp;SoloLearn</div>
+          <a class="cert-meta-link" href="https://www.sololearn.com/en/profile/33246033" target="_blank" rel="noopener">
+            <div class="cert-name">Introduction to HTML</div>
+            <div class="cert-desc">Front-end foundation certificate covering HTML structure, elements, and page markup basics.</div>
+          </a>
+        </div>
+      </div>
+      <div class="cert-card">
+        <a class="cert-img-wrap" href="certificates/solo%20learn/solo_Introduction_TO_C.png" target="_blank" rel="noopener" aria-label="Open Introduction to C certificate image">
+          <img src="certificates/solo%20learn/solo_Introduction_TO_C.png" alt="SoloLearn Introduction to C certificate" loading="lazy" decoding="async"/>
+          <div class="cert-badge">SoloLearn</div>
+        </a>
+        <div class="cert-body">
+          <div class="cert-issuer"><i class="fa-solid fa-code"></i> &nbsp;SoloLearn</div>
+          <a class="cert-meta-link" href="https://www.sololearn.com/en/profile/33246033" target="_blank" rel="noopener">
+            <div class="cert-name">Introduction to C</div>
+            <div class="cert-desc">Procedural programming certificate covering variables, control flow, and core C syntax.</div>
+          </a>
+        </div>
+      </div>
+      <div class="cert-card">
+        <a class="cert-img-wrap" href="certificates/solo%20learn/solo_introduction_to_C++.png" target="_blank" rel="noopener" aria-label="Open Introduction to C++ certificate image">
+          <img src="certificates/solo%20learn/solo_introduction_to_C++.png" alt="SoloLearn Introduction to C++ certificate" loading="lazy" decoding="async"/>
+          <div class="cert-badge">SoloLearn</div>
+        </a>
+        <div class="cert-body">
+          <div class="cert-issuer"><i class="fa-solid fa-code"></i> &nbsp;SoloLearn</div>
+          <a class="cert-meta-link" href="https://www.sololearn.com/en/profile/33246033" target="_blank" rel="noopener">
+            <div class="cert-name">Introduction to C++</div>
+            <div class="cert-desc">Object-oriented programming certificate introducing classes, functions, and C++ language fundamentals.</div>
+          </a>
+        </div>
       </div>
     </div>
+    <div class="platform-more"></div>
+  </div>
 
-    <!-- CERT 2: TryHackMe -->
-    <div class="cert-card">
-      <div class="cert-img-wrap">
-        <!--
-          Replace with:
-          <img src="cert-tryhackme.jpg" alt="TryHackMe Certificate"/>
-          Image file: cert-tryhackme.jpg
-        -->
-        <div class="cert-placeholder">
-          <i class="fa-solid fa-flag"></i>
-          <span>cert-tryhackme.jpg</span>
-        </div>
-        <div class="cert-badge">Achievement</div>
+  <div class="platform-group platform-panel" data-platform="udemy">
+    <div class="platform-head">
+      <div class="platform-actions">
+        <div class="platform-title"><i class="fa-solid fa-graduation-cap"></i><a href="https://www.udemy.com/home/my-courses/learning/?progress_filter=completed" target="_blank" rel="noopener">Udemy</a></div>
+        <div class="platform-meta">4 certificates</div>
       </div>
-      <div class="cert-body">
-        <div class="cert-issuer"><i class="fa-solid fa-flag"></i> &nbsp;TryHackMe</div>
-        <div class="cert-name">Pre Security Learning Path</div>
-        <div class="cert-date"><i class="fa-regular fa-calendar"></i> &nbsp;2024</div>
-        <div class="cert-desc">Completed the Pre-Security path covering networking, web fundamentals, Linux fundamentals and how the internet works — entry point into offensive security.</div>
-        <a href="https://tryhackme.com/p/kavindusahan821" target="_blank" rel="noopener" class="cert-link">
-          <i class="fa-solid fa-up-right-from-square"></i> View Profile
+      <button class="platform-toggle" type="button" data-toggle-platform="udemy" aria-expanded="false" hidden>See More</button>
+    </div>
+    <div class="platform-grid">
+      <div class="cert-card">
+        <a class="cert-img-wrap" href="certificates/Udemy/GNU%20kali.png" target="_blank" rel="noopener" aria-label="Open GNU Kali certificate image">
+          <img src="certificates/Udemy/GNU%20kali.png" alt="Udemy GNU Kali certificate" loading="lazy" decoding="async"/>
+          <div class="cert-badge">Udemy</div>
         </a>
+        <div class="cert-body">
+          <div class="cert-issuer"><i class="fa-solid fa-graduation-cap"></i> &nbsp;Udemy</div>
+          <a class="cert-meta-link" href="https://www.udemy.com/home/my-courses/learning/?progress_filter=completed" target="_blank" rel="noopener">
+            <div class="cert-name">GNU Kali</div>
+            <div class="cert-desc">Linux and Kali-related certificate image, kept as a local scan for the gallery.</div>
+          </a>
+        </div>
+      </div>
+      <div class="cert-card">
+        <a class="cert-img-wrap" href="certificates/Udemy/introduction_C++.jpg" target="_blank" rel="noopener" aria-label="Open Introduction to C++ certificate image">
+          <img src="certificates/Udemy/introduction_C++.jpg" alt="Udemy Introduction to C++ certificate" loading="lazy" decoding="async"/>
+          <div class="cert-badge">Udemy</div>
+        </a>
+        <div class="cert-body">
+          <div class="cert-issuer"><i class="fa-solid fa-graduation-cap"></i> &nbsp;Udemy</div>
+          <a class="cert-meta-link" href="https://www.udemy.com/home/my-courses/learning/?progress_filter=completed" target="_blank" rel="noopener">
+            <div class="cert-name">Introduction to C++</div>
+            <div class="cert-desc">Programming certificate image for the C++ introduction course.</div>
+          </a>
+        </div>
+      </div>
+      <div class="cert-card">
+        <a class="cert-img-wrap" href="certificates/Udemy/network%20mastering%20for%20ethical%20hacking.png" target="_blank" rel="noopener" aria-label="Open Network Mastering for Ethical Hacking certificate image">
+          <img src="certificates/Udemy/network%20mastering%20for%20ethical%20hacking.png" alt="Udemy Network Mastering for Ethical Hacking certificate" loading="lazy" decoding="async"/>
+          <div class="cert-badge">Udemy</div>
+        </a>
+        <div class="cert-body">
+          <div class="cert-issuer"><i class="fa-solid fa-graduation-cap"></i> &nbsp;Udemy</div>
+          <a class="cert-meta-link" href="https://www.udemy.com/home/my-courses/learning/?progress_filter=completed" target="_blank" rel="noopener">
+            <div class="cert-name">Network Mastering for Ethical Hacking</div>
+            <div class="cert-desc">Networking-focused certificate image tied to ethical hacking and defensive learning.</div>
+          </a>
+        </div>
+      </div>
+      <div class="cert-card">
+        <a class="cert-img-wrap" href="certificates/Udemy/pyhton%20tkinter.png" target="_blank" rel="noopener" aria-label="Open Python Tkinter certificate image">
+          <img src="certificates/Udemy/pyhton%20tkinter.png" alt="Udemy Python Tkinter certificate" loading="lazy" decoding="async"/>
+          <div class="cert-badge">Udemy</div>
+        </a>
+        <div class="cert-body">
+          <div class="cert-issuer"><i class="fa-solid fa-graduation-cap"></i> &nbsp;Udemy</div>
+          <a class="cert-meta-link" href="https://www.udemy.com/home/my-courses/learning/?progress_filter=completed" target="_blank" rel="noopener">
+            <div class="cert-name">Python Tkinter</div>
+            <div class="cert-desc">Python GUI certificate image covering Tkinter-based interface development.</div>
+          </a>
+        </div>
       </div>
     </div>
+    <div class="platform-more"></div>
+  </div>
 
-    <!-- CERT 3: HackTheBox -->
-    <div class="cert-card">
-      <div class="cert-img-wrap">
-        <!--
-          Replace with:
-          <img src="cert-htb.jpg" alt="HackTheBox Certificate"/>
-          Image file: cert-htb.jpg
-        -->
-        <div class="cert-placeholder">
-          <i class="fa-solid fa-cube"></i>
-          <span>cert-htb.jpg</span>
-        </div>
-        <div class="cert-badge">Achievement</div>
+  <div class="platform-group platform-panel" data-platform="isc2">
+    <div class="platform-head">
+      <div class="platform-actions">
+        <div class="platform-title"><i class="fa-solid fa-shield-halved"></i><a href="https://isc2.obrizum.io/org/cc/certificate" target="_blank" rel="noopener">ISC2</a></div>
+        <div class="platform-meta">4 certificates</div>
       </div>
-      <div class="cert-body">
-        <div class="cert-issuer"><i class="fa-solid fa-cube"></i> &nbsp;HackTheBox</div>
-        <div class="cert-name">Starting Point — Tier Completion</div>
-        <div class="cert-date"><i class="fa-regular fa-calendar"></i> &nbsp;2024</div>
-        <div class="cert-desc">Completed the HackTheBox Starting Point tier — hands-on penetration testing labs covering enumeration, exploitation, and privilege escalation on real machines.</div>
-        <a href="https://profile.hackthebox.com/" target="_blank" rel="noopener" class="cert-link">
-          <i class="fa-solid fa-up-right-from-square"></i> View Profile
+      <button class="platform-toggle" type="button" data-toggle-platform="isc2" aria-expanded="false" hidden>See More</button>
+    </div>
+    <div class="platform-grid">
+      <div class="cert-card">
+        <a class="cert-img-wrap" href="certificates/ISC2/asignment%2001.png" target="_blank" rel="noopener" aria-label="Open CC Domain 1 Security Principles certificate image">
+          <img src="certificates/ISC2/asignment%2001.png" alt="CC Domain 1: Security Principles certificate" loading="lazy" decoding="async"/>
+          <div class="cert-badge verified">ISC2</div>
         </a>
+        <div class="cert-body">
+          <div class="cert-issuer"><i class="fa-solid fa-shield-halved"></i> &nbsp;ISC2</div>
+          <a class="cert-meta-link" href="https://isc2.obrizum.io/org/cc/certificate" target="_blank" rel="noopener">
+            <div class="cert-name">CC Domain 1: Security Principles</div>
+            <div class="cert-desc">ISC2 assignment certificate image stored locally in the gallery.</div>
+          </a>
+        </div>
+      </div>
+      <div class="cert-card">
+        <a class="cert-img-wrap" href="certificates/ISC2/second%20assignment.png" target="_blank" rel="noopener" aria-label="Open CC Domain 2 Incident Response certificate image">
+          <img src="certificates/ISC2/second%20assignment.png" alt="CC Domain 2: Incident Response, Business Continuity and Disaster Recovery Concepts certificate" loading="lazy" decoding="async"/>
+          <div class="cert-badge verified">ISC2</div>
+        </a>
+        <div class="cert-body">
+          <div class="cert-issuer"><i class="fa-solid fa-shield-halved"></i> &nbsp;ISC2</div>
+          <a class="cert-meta-link" href="https://isc2.obrizum.io/org/cc/certificate" target="_blank" rel="noopener">
+            <div class="cert-name">CC Domain 2: Incident Response, Business Continuity and Disaster Recovery Concepts</div>
+            <div class="cert-desc">Second ISC2 assignment certificate image stored locally in the gallery.</div>
+          </a>
+        </div>
+      </div>
+      <div class="cert-card">
+        <a class="cert-img-wrap" href="certificates/ISC2/third%20assignment.png" target="_blank" rel="noopener" aria-label="Open CC Domain 3 Access Control certificate image">
+          <img src="certificates/ISC2/third%20assignment.png" alt="CC Domain 3: Access Control Concepts certificate" loading="lazy" decoding="async"/>
+          <div class="cert-badge verified">ISC2</div>
+        </a>
+        <div class="cert-body">
+          <div class="cert-issuer"><i class="fa-solid fa-shield-halved"></i> &nbsp;ISC2</div>
+          <a class="cert-meta-link" href="https://isc2.obrizum.io/org/cc/certificate" target="_blank" rel="noopener">
+            <div class="cert-name">CC Domain 3: Access Control Concepts</div>
+            <div class="cert-desc">Third ISC2 assignment certificate image stored locally in the gallery.</div>
+          </a>
+        </div>
+      </div>
+      <div class="cert-card">
+        <a class="cert-img-wrap" href="certificates/ISC2/fourth%20assignment.png" target="_blank" rel="noopener" aria-label="Open CC Domain 4 Network Security certificate image">
+          <img src="certificates/ISC2/fourth%20assignment.png" alt="CC Domain 4: Network Security certificate" loading="lazy" decoding="async"/>
+          <div class="cert-badge verified">ISC2</div>
+        </a>
+        <div class="cert-body">
+          <div class="cert-issuer"><i class="fa-solid fa-shield-halved"></i> &nbsp;ISC2</div>
+          <a class="cert-meta-link" href="https://isc2.obrizum.io/org/cc/certificate" target="_blank" rel="noopener">
+            <div class="cert-name">CC Domain 4: Network Security</div>
+            <div class="cert-desc">Fourth ISC2 assignment certificate image stored locally in the gallery.</div>
+          </a>
+        </div>
       </div>
     </div>
+    <div class="platform-more"></div>
+  </div>
 
-    <!-- ADD MORE CERT CARDS HERE following same pattern -->
-
+  <div class="platform-group platform-panel" data-platform="hackerrank">
+    <div class="platform-head">
+      <div class="platform-actions">
+        <div class="platform-title"><i class="fa-solid fa-laptop-code"></i><a href="https://www.hackerrank.com/" target="_blank" rel="noopener">HackerRank</a></div>
+        <div class="platform-meta">1 certificate</div>
+      </div>
+      <button class="platform-toggle" type="button" data-toggle-platform="hackerrank" aria-expanded="false" hidden>See More</button>
+    </div>
+    <div class="platform-grid">
+      <div class="cert-card">
+        <a class="cert-img-wrap" href="certificates/hacker%20rank/python_basic.png" target="_blank" rel="noopener" aria-label="Open HackerRank Python Basic certificate image">
+          <img src="certificates/hacker%20rank/python_basic.png" alt="HackerRank Python Basic certificate" loading="lazy" decoding="async"/>
+          <div class="cert-badge">HackerRank</div>
+        </a>
+        <div class="cert-body">
+          <div class="cert-issuer"><i class="fa-solid fa-laptop-code"></i> &nbsp;HackerRank</div>
+          <a class="cert-meta-link" href="https://www.hackerrank.com/" target="_blank" rel="noopener">
+            <div class="cert-name">Python Basic</div>
+            <div class="cert-desc">Python fundamentals certificate image from HackerRank, grouped by platform.</div>
+          </a>
+        </div>
+      </div>
+    </div>
+      <div class="platform-more"></div>
   </div>
 
   <!-- FOOTER -->
   <div class="page-foot">
     Chandrapala H.K.S. (SAHAN) · Eastern University, Trincomalee · Sri Lanka<br/>
-    © 2025 · All certifications are verified &amp; authentic
+    © 2025 · Certificate gallery grouped by platform and linked to local scans in the certificates folder
   </div>
 
 </div>
@@ -358,6 +596,16 @@ body::before{
     const l=body.classList.contains('light');
     icon.className=l?'fa-solid fa-sun':'fa-solid fa-moon';
     localStorage.setItem('sahan-theme',l?'light':'dark');
+  });
+
+  document.querySelectorAll('.platform-toggle').forEach((toggle)=>{
+    toggle.addEventListener('click',()=>{
+      const platform = toggle.getAttribute('data-toggle-platform');
+      const panel = document.querySelector('.platform-panel[data-platform="' + platform + '"]');
+      const isOpen = panel.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      toggle.textContent = isOpen ? 'Show Less' : 'See More';
+    });
   });
 })();
 </script>
